@@ -19,6 +19,6 @@ Currently, there is support for:
 
 ##Getting Started
 
- * [Fedora Installation Notes](https://github.com/arista-eosplus/packer-ztpserver/blob/master/Fedora/README.md)
- * [Ubuntu Installation Notes](https://github.com/arista-eosplus/packer-ztpserver/blob/master/Ubuntu/README.md)
+ * [Fedora Installation Notes](https://github.com/arista-eosplus/packer-ztpserver/tree/master/Fedora)
+ * [Ubuntu Installation Notes](https://github.com/arista-eosplus/packer-ztpserver/tree/master/Ubuntu)
  
