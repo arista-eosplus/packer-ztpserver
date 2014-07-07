@@ -4,7 +4,8 @@
 You can use Packer.io to automate the creation of the ZTPServer VM.
 By using this method, you can be sure that all of the required packages and dependencies are installed right out of the gate.
 
-You can also use Packer to automate the setup of vEOS nodes.  This process is currently only supported for VMware.
+You can also use Packer to automate the setup of [vEOS nodes](https://github.com/arista-eosplus/packer-veos). 
+This process is currently only supported for VMware.
 
 ###What's Supported
 Currently, there is support for:
@@ -19,6 +20,6 @@ Currently, there is support for:
 
 ##Getting Started
 
- * [Fedora Installation Notes](https://github.com/arista-eosplus/ztpserver/tree/feature-packer/packer/Fedora)
+ * [Fedora Installation Notes](https://github.com/arista-eosplus/packer-ztpserver/blob/master/Fedora/README.md)
  * [Ubuntu Installation Notes](https://github.com/arista-eosplus/packer-ztpserver/blob/master/Ubuntu/README.md)
- * [vEOS (VMware) Installation Notes](https://github.com/arista-eosplus/ztpserver/tree/feature-packer/packer/vEOS/VMware)
+ 
