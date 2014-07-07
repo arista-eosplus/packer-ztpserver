@@ -15,8 +15,7 @@ Currently, there is support for:
   * Ubuntu 12.04 on VMWare
   * Fedora 20 on VMWare
   * Fedora 20 on Virtual Box
-* **vEOS**
-  * VMware
+
 
 ##Getting Started
 
