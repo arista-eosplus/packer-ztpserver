@@ -20,5 +20,5 @@ Currently, there is support for:
 ##Getting Started
 
  * [Fedora Installation Notes](https://github.com/arista-eosplus/ztpserver/tree/feature-packer/packer/Fedora)
- * [Ubuntu Installation Notes](https://github.com/arista-eosplus/ztpserver/tree/feature-packer/packer/Ubuntu)
+ * [Ubuntu Installation Notes](https://github.com/arista-eosplus/packer-ztpserver/blob/master/Ubuntu/README.md)
  * [vEOS (VMware) Installation Notes](https://github.com/arista-eosplus/ztpserver/tree/feature-packer/packer/vEOS/VMware)
