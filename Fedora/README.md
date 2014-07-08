@@ -56,7 +56,7 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
 > **Note:** The following procedure was tested using VMWare Fusion 6.0.3.
 > **IMPORTANT** As you read above, eth1 will be placed on vmnet2. Therefore, you need to have this non-standard vmnet setup in your VMware environment.  We've created a script ```setup-fusion.sh```([link](https://github.com/arista-eosplus/ztpserver/blob/feature-packer/packer/vEOS/VMware/setup-fusion.sh)) to help add vmnets so that your setup will work with this basic install, as well as the demo found [here](https://github.com/arista-eosplus/ztpserver/tree/feature-packer/packer/vEOS/VMware).
 
-1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/ztpserver/tree/feature-packer
+1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/packer-ztpserver
 2. ```cd``` to the location of the .json file.
 3. This step is optional. If you want to use our demo files and get ZTPServer running quickly, then complete this step. ZTPServer will still run without these files.
     Download the following files and place them in the corresponding directories:
@@ -155,7 +155,7 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
 Therefore, open Vbox and open the General Settings/Preferences menu. Click on the **Network** tab. Click on **Host-only Networks.**
 Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 255.255.255.0 and turn off the DHCP server.
 
-1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/ztpserver/tree/feature-packer
+1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/packer-ztpserver
 2. ```cd``` to the location of the .json file.
 3. This step is optional. If you want to use our demo files and get ZTPServer running quickly, then complete this step.  ZTPServer will still run without these files.
     Download the following files and place them in the corresponding directories:

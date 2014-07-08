@@ -43,10 +43,17 @@ ifconfig
 #firewall-cmd --permanent --zone=internal --add-port=5222
 #Open port for DNS
 #firewall-cmd --permanent --zone=internal --add-port=53
+echo "auto eth1
+iface eth1 inet static
+address 172.16.130.10
+netmask 255.255.255.0
+" >> /etc/network/interfaces
+ifup eth1
 
 ######################################
 # CONFIGURE LLDP
 ######################################
+service lldpad status
 lldptool -L -i eth1 adminStatus=rxtx
 lldptool -T -i eth1 -V sysName enableTx=yes
 lldptool -T -i eth1 -V sysDesc enableTx=yes
