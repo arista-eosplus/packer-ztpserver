@@ -20,6 +20,7 @@ yum -y install screen
 yum -y install git
 yum -y install net-tools
 yum -y install tcpdump
+yum -y install lldpad
 yum -y install httpd
 yum -y install httpd-devel
 yum -y install dhcp
@@ -37,6 +38,15 @@ systemctl disable firewalld.service
 systemctl stop firewalld.service
 firewall-cmd --state
 ifconfig
+
+######################################
+# CONFIGURE LLDP
+######################################
+systemctl start lldpad
+systemctl enable lldpad
+lldptool -L -i eth1 adminStatus=rxtx
+lldptool -T -i eth1 -V sysName enableTx=yes
+lldptool -T -i eth1 -V sysDesc enableTx=yes
 
 ######################################
 # CONFIGURE SCREEN

@@ -17,6 +17,7 @@ apt-get -y install screen
 apt-get -y install git
 #apt-get -y install net-tools
 #apt-get -y install tcpdump
+apt-get -y install lldpad
 apt-get -y install apache2
 apt-get -y install apache2-dev
 apt-get -y install isc-dhcp-server
@@ -42,6 +43,14 @@ ifconfig
 #firewall-cmd --permanent --zone=internal --add-port=5222
 #Open port for DNS
 #firewall-cmd --permanent --zone=internal --add-port=53
+
+######################################
+# CONFIGURE LLDP
+######################################
+service lldpad start
+lldptool -L -i eth1 adminStatus=rxtx
+lldptool -T -i eth1 -V sysName enableTx=yes
+lldptool -T -i eth1 -V sysDesc enableTx=yes
 
 ######################################
 # CONFIGURE SCREEN
