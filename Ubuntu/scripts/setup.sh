@@ -98,8 +98,9 @@ ejabberdctl register veos-dc1-pod1-tor6 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-spine1 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-spine2 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-spine3 im.ztps-test.com eosplus
-ejabberdctl register veos-dc1-pod1-spine4 im.ztps-test.com eosplusservice ejabberd restart
-sleep 3
+ejabberdctl register veos-dc1-pod1-spine4 im.ztps-test.com eosplus
+service ejabberd restart
+sleep 4
 ejabberdctl status
 
 ######################################
