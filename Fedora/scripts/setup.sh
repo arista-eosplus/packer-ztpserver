@@ -82,6 +82,7 @@ sleep 2
 ejabberdctl status
 systemctl enable ejabberd.service
 ejabberdctl register ztpsadmin im.ztps-test.com eosplus
+ejabberdctl register bootstrap im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-tor1 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-tor2 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-tor3 im.ztps-test.com eosplus
