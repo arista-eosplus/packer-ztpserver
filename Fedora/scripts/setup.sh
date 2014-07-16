@@ -94,7 +94,7 @@ ejabberdctl register veos-dc1-pod1-spine2 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-spine3 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-spine4 im.ztps-test.com eosplus
 ejabberdctl restart
-sleep 4
+sleep 6
 ejabberdctl status
 
 ######################################

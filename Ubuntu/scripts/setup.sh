@@ -62,6 +62,7 @@ lldptool -T -i eth1 -V sysDesc enableTx=yes
 # CONFIGURE SCREEN
 ######################################
 cp /tmp/packer/screenrc /home/ztpsadmin/.screenrc
+cp /tmp/packer/screenrc /root/.screenrc
 
 ######################################
 # CONFIGURE ntp
@@ -101,7 +102,7 @@ ejabberdctl register veos-dc1-pod1-spine2 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-spine3 im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-spine4 im.ztps-test.com eosplus
 service ejabberd restart
-sleep 4
+sleep 6
 ejabberdctl status
 
 ######################################
