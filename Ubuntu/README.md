@@ -59,36 +59,7 @@ Therefore, the first step is downloading and installing Packer.
 
 1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/packer-ztpserver
 2. ```cd``` to the location of the .json file.
-3. This step is optional. If you want to use our demo files and get ZTPServer running quickly, then complete this step. ZTPServer will still run without these files.
-    Download the following files and place them in the corresponding directories:
-    * vEOS.swi - ```./files/images/vEOS.swi```
-    * puppet-2.7.20-1.fc16.noarch.rpm - ```./files/puppet/puppet-2.7.20-1.fc16.noarch.rpm```
-    * facter-1.6.17-1.fc16.i686.rpm - ```./files/puppet/facter-1.6.17-1.fc16.i686.rpm```
-    * ruby-1.8.7.swix - ```./files/puppet/ruby-1.8.7.swix```
-    * ruby-json-1.5.5.swix - ```./files/puppet/ruby-json-1.5.5.swix```
-    * rubygems-1.3.7.swix - ```./files/puppet/rubygems-1.3.7.swix```
-
-    Your directory should look like:
-    ```
-    [root]
-       - ztps-ubuntu-12.04.4_amd64.json
-       - /http
-           - preseed.cfg
-       - /conf
-           - ...conf files
-       - /scripts
-           - setup.sh
-       - /files
-           - /images
-               - vEOS.swi
-           - /puppet
-               - puppet-2.7.20-1.fc16.noarch.rpm
-               - facter-1.6.17-1.fc16.i686.rpm
-               - ruby-1.8.7.swix
-               - ruby-json-1.5.5.swix
-               - rubygems-1.3.7.swix
-   ```
-4. Run ```packer build --only=vmware-iso ztps-ubuntu-12.04.4_amd64.json``` for VMWare
+3. Run ```packer build --only=vmware-iso ztps-ubuntu-12.04.4_amd64.json``` for VMWare
     You will see:
     ```
     phil:Ubuntu phil$ packer build --only=vmware-iso ztps-ubuntu-12.04.4_amd64.json
@@ -97,9 +68,9 @@ Therefore, the first step is downloading and installing Packer.
     ==> vmware-iso: Downloading or copying ISO
         vmware-iso: Downloading or copying: http://releases.ubuntu.com/12.04/ubuntu-12.04.4-server-amd64.iso
     ```
-5. Once the ISO is downloaded, packer brings up a VMWare VM. The Anaconda installation will proceed without any user input.
-6. After 10 minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
-7. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+4. Once the ISO is downloaded, packer brings up a VMWare VM. The Anaconda installation will proceed without any user input.
+5. After 10 minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
+6. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
     ```
     ==> vmware-iso: Connecting to VM via VNC
     ==> vmware-iso: Typing the boot command over VNC...
@@ -111,7 +82,7 @@ Therefore, the first step is downloading and installing Packer.
         vmware-iso: + apt-get -y update
     ... (shell script output)
     ```
-8. After some extensive apt-getting (~5minutes), you will see:
+7. After some extensive apt-getting (~5minutes), you will see:
     ```
     ==> vmware-iso: Gracefully halting virtual machine...
         vmware-iso: Waiting for VMware to clean up after itself...
@@ -128,8 +99,8 @@ Therefore, the first step is downloading and installing Packer.
     ==> Builds finished. The artifacts of successful builds are:
     --> vmware-iso: VM files in directory: output-vmware-iso
     ```
-9. You now have a full-featured ZTPServer.
-10. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
+8. You now have a full-featured ZTPServer.
+9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
 
 ###Creating a VM for use with VirtualBox
 > **Note:** The following procedure was tested using VirtualBox 4.3.12.
@@ -140,36 +111,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
 
 1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/packer-ztpserver
 2. ```cd``` to the location of the .json file.
-3. This step is optional. If you want to use our demo files and get ZTPServer running quickly, then complete this step.  ZTPServer will still run without these files.
-    Download the following files and place them in the corresponding directories:
-    * vEOS.swi - ```./files/images/vEOS.swi```
-    * puppet-2.7.20-1.fc16.noarch.rpm - ```./files/puppet/puppet-2.7.20-1.fc16.noarch.rpm```
-    * facter-1.6.17-1.fc16.i686.rpm - ```./files/puppet/facter-1.6.17-1.fc16.i686.rpm```
-    * ruby-1.8.7.swix - ```./files/puppet/ruby-1.8.7.swix```
-    * ruby-json-1.5.5.swix - ```./files/puppet/ruby-json-1.5.5.swix```
-    * rubygems-1.3.7.swix - ```./files/puppet/rubygems-1.3.7.swix```
-
-    Your directory should look like:
-    ```
-    [root]
-       - ztps-ubuntu-12.04.4_amd64.json
-       - /http
-           - preseed.cfg
-       - /conf
-           - ...conf files
-       - /scripts
-           - setup.sh
-       - /files
-           - /images
-               - vEOS.swi
-           - /puppet
-               - puppet-2.7.20-1.fc16.noarch.rpm
-               - facter-1.6.17-1.fc16.i686.rpm
-               - ruby-1.8.7.swix
-               - ruby-json-1.5.5.swix
-               - rubygems-1.3.7.swix
-   ```
-4. Run ```packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json``` for VirtualBox:
+3. Run ```packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json``` for VirtualBox:
     ```
     phil:Ubuntu phil$ packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json
     virtualbox-iso output will be in this color.
@@ -181,9 +123,9 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
     ==> virtualbox-iso: Downloading or copying ISO
         virtualbox-iso: Downloading or copying: http://releases.ubuntu.com/12.04/ubuntu-12.04.4-server-amd64.iso
     ```
-5. Once the ISO is downloaded, packer brings up a VBox/VMWare VM. The installation will proceed without any user input.
-6. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
-7. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+4. Once the ISO is downloaded, packer brings up a VBox/VMWare VM. The installation will proceed without any user input.
+5. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
+6. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
     ```
       ==> virtualbox-iso: Waiting for SSH to become available...
       ==> virtualbox-iso: Connected to SSH!
@@ -194,7 +136,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
       ==> virtualbox-iso: Provisioning with shell script: scripts/setup.sh
       ... (shell script output)
     ```
-8. After some extensive apt-getting (<5minutes), you will see:
+7. After some extensive apt-getting (<5minutes), you will see:
     ```
     ==> vmware-iso: Gracefully halting virtual machine...
         vmware-iso: Waiting for VMware to clean up after itself...
@@ -211,8 +153,8 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
     ==> Builds finished. The artifacts of successful builds are:
     --> vmware-iso: VM files in directory: output-vmware-iso
     ```
-9. You now have a full-featured ZTPServer.
-10. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
+8. You now have a full-featured ZTPServer.
+9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
 
 > **Note**: If you created the VM with VBox, you will have to navigate to the output folder and double-click on the .ovf file to import it into Virtual Box.
 

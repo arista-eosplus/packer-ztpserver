@@ -58,36 +58,7 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
 
 1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/packer-ztpserver
 2. ```cd``` to the location of the .json file.
-3. This step is optional. If you want to use our demo files and get ZTPServer running quickly, then complete this step. ZTPServer will still run without these files.
-    Download the following files and place them in the corresponding directories:
-    * vEOS.swi - ```./files/images/vEOS.swi```
-    * puppet-2.7.20-1.fc16.noarch.rpm - ```./files/puppet/puppet-2.7.20-1.fc16.noarch.rpm```
-    * facter-1.6.17-1.fc16.i686.rpm - ```./files/puppet/facter-1.6.17-1.fc16.i686.rpm```
-    * ruby-1.8.7.swix - ```./files/puppet/ruby-1.8.7.swix```
-    * ruby-json-1.5.5.swix - ```./files/puppet/ruby-json-1.5.5.swix```
-    * rubygems-1.3.7.swix - ```./files/puppet/rubygems-1.3.7.swix```
-
-    Your directory should look like:
-    ```
-    [root]
-       - ztps-fedora_20_x86_64.json
-       - /http
-           - ks-net.cfg
-       - /conf
-           - ...conf files
-       - /scripts
-           - setup.sh
-       - /files
-           - /images
-               - vEOS.swi
-           - /puppet
-               - puppet-2.7.20-1.fc16.noarch.rpm
-               - facter-1.6.17-1.fc16.i686.rpm
-               - ruby-1.8.7.swix
-               - ruby-json-1.5.5.swix
-               - rubygems-1.3.7.swix
-   ```
-4. Run ```packer build --only=vmware-iso ztps-fedora_20_x86_64.json```
+3. Run ```packer build --only=vmware-iso ztps-fedora_20_x86_64.json```
     You will see:
     ```
     phil:ztpserver phil$ packer build ztps-fedora_20_x86_64.json
@@ -104,9 +75,9 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
     ==> vmware-iso: Typing the boot command over VNC...
     ==> vmware-iso: Waiting for SSH to become available...
     ```
-5. Once the ISO is downloaded, packer brings up a VMWare VM. The Anaconda installation will proceed without any user input.
-6. After 10 minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
-7. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+4. Once the ISO is downloaded, packer brings up a VMWare VM. The Anaconda installation will proceed without any user input.
+5. After 10 minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
+6. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
     ```
     phil:ztpserver phil$ packer build ztps-fedora_20_x86_64.json
     vmware-iso output will be in this color.
@@ -127,7 +98,7 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
     ==> vmware-iso: Provisioning with shell script: scripts/setup.sh
     ... (shell script output)
     ```
-8. After some extensive yumming (~5minutes), you will see:
+7. After some extensive yumming (~5minutes), you will see:
     ```
     ==> vmware-iso: Gracefully halting virtual machine...
         vmware-iso: Waiting for VMware to clean up after itself...
@@ -144,8 +115,8 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
     ==> Builds finished. The artifacts of successful builds are:
     --> vmware-iso: VM files in directory: output-vmware-iso
     ```
-9. You now have a full-featured ZTPServer.
-10. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
+8. You now have a full-featured ZTPServer.
+9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
 
 
 ###Creating a VM for use with VirtualBox
@@ -157,36 +128,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
 
 1. Retrieve the EOS+ packer files by using the 'Download Zip' option here https://github.com/arista-eosplus/packer-ztpserver
 2. ```cd``` to the location of the .json file.
-3. This step is optional. If you want to use our demo files and get ZTPServer running quickly, then complete this step.  ZTPServer will still run without these files.
-    Download the following files and place them in the corresponding directories:
-    * vEOS.swi - ```./files/images/vEOS.swi```
-    * puppet-2.7.20-1.fc16.noarch.rpm - ```./files/puppet/puppet-2.7.20-1.fc16.noarch.rpm```
-    * facter-1.6.17-1.fc16.i686.rpm - ```./files/puppet/facter-1.6.17-1.fc16.i686.rpm```
-    * ruby-1.8.7.swix - ```./files/puppet/ruby-1.8.7.swix```
-    * ruby-json-1.5.5.swix - ```./files/puppet/ruby-json-1.5.5.swix```
-    * rubygems-1.3.7.swix - ```./files/puppet/rubygems-1.3.7.swix```
-
-    Your directory should look like:
-    ```
-    [root]
-       - ztps-fedora_20_x86_64.json
-       - /http
-           - ks-net.cfg
-       - /conf
-           - ...conf files
-       - /scripts
-           - setup.sh
-       - /files
-           - /images
-               - vEOS.swi
-           - /puppet
-               - puppet-2.7.20-1.fc16.noarch.rpm
-               - facter-1.6.17-1.fc16.i686.rpm
-               - ruby-1.8.7.swix
-               - ruby-json-1.5.5.swix
-               - rubygems-1.3.7.swix
-    ```
-4. Run ```packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json``` for VirtualBox
+3. Run ```packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json``` for VirtualBox
     You will see:
     ```
     phil:Fedora phil$ packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json
@@ -199,9 +141,9 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
     ==> virtualbox-iso: Downloading or copying ISO
         virtualbox-iso: Downloading or copying: http://mirrors.xmission.com/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso
     ```
-5. Once the ISO is downloaded, packer brings up a VBox VM. The installation will proceed without any user input.
-6. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
-7. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+4. Once the ISO is downloaded, packer brings up a VBox VM. The installation will proceed without any user input.
+5. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
+6. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
     ```
     ==> virtualbox-iso: Waiting for SSH to become available...
     ==> virtualbox-iso: Connected to SSH!
@@ -213,7 +155,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
         virtualbox-iso: + yum -y install deltarpm
       ... (shell script output)
     ```
-8. After some extensive yumming (<5minutes), you will see:
+7. After some extensive yumming (<5minutes), you will see:
     ```
     ==> virtualbox-iso: Gracefully halting virtual machine...
         virtualbox-iso:
@@ -232,8 +174,8 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
     --> virtualbox-iso: VM files in directory: output-virtualbox-iso
     Build 'vmware-iso' finished.
     ```
-9. You now have a full-featured ZTPServer.
-10. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
+8. You now have a full-featured ZTPServer.
+9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
 
 
 ##Setting up a Quick Demo
