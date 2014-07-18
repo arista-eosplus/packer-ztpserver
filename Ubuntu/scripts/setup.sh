@@ -89,6 +89,7 @@ cp /tmp/packer/ejabberd.cfg /etc/ejabberd/ejabberd.cfg
 echo -e "127.0.0.1 ztps ztps.ztps-test.com" >> /etc/hosts
 service ejabberd restart
 sleep 3
+ejabberdctl register cvx im.ztps-test.com eosplus
 ejabberdctl register ztpsadmin im.ztps-test.com eosplus
 ejabberdctl register bootstrap im.ztps-test.com eosplus
 ejabberdctl register veos-dc1-pod1-tor1 im.ztps-test.com eosplus
