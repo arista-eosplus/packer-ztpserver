@@ -58,7 +58,7 @@ Therefore, the first step is downloading and installing Packer.
 > **Note:** The following procedure was tested using VMWare Fusion 6.0.3.
 
 1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or use ```git clone https://github.com/arista-eosplus/packer-ztpserver.git```
-2. ```cd``` to the location of the .json file.
+2. ```cd packer-ztpserver/Ubuntu``` to the location of the .json file.
 3. Run ```packer build --only=vmware-iso ztps-ubuntu-12.04.4_amd64.json``` for VMWare
     You will see:
     ```
@@ -110,7 +110,7 @@ Therefore, open Vbox and open the General Settings/Preferences menu. Click on th
 Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 255.255.255.0 and turn off the DHCP server.
 
 1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or use ```git clone https://github.com/arista-eosplus/packer-ztpserver.git```
-2. ```cd``` to the location of the .json file.
+2. ```cd packer-ztpserver/Ubuntu``` to the location of the .json file.
 3. Run ```packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json``` for VirtualBox:
     ```
     phil:Ubuntu phil$ packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json
