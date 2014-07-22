@@ -24,7 +24,7 @@
           "ssh_port":"22",
           "ssh_wait_timeout": "20m",
           "guest_os_type": "fedora-64",
-          "vm_name":"ztps-fedora-20-x86_64-{{isotime}}",
+          "vm_name":"ztps-fedora-20-x86_64",
           "vmx_data": {
             "memsize": "2048",
             "numvcpus": "1",
@@ -68,7 +68,7 @@
           "ssh_port":"22",
           "ssh_wait_timeout": "20m",
           "guest_os_type": "Fedora_64",
-          "vm_name":"ztps-fedora-20-x86_64-{{isotime}}",
+          "vm_name":"ztps-fedora-20-x86_64",
           "vboxmanage": [
               [
                   "modifyvm",

@@ -38,7 +38,7 @@
         "ssh_port":"22",
         "ssh_wait_timeout": "20m",
         "guest_os_type": "linux",
-        "vm_name":"ztps-ubuntu-12.04_amd64-{{isotime}}",
+        "vm_name":"ztps-ubuntu-12.04_amd64",
         "vmx_data": {
           "memsize": "2048",
           "numvcpus": "1",
@@ -96,7 +96,7 @@
        "ssh_port":"22",
        "ssh_wait_timeout": "20m",
        "guest_os_type": "Ubuntu_64",
-       "vm_name":"ztps-ubuntu-12.04_amd64-{{isotime}}",
+       "vm_name":"ztps-ubuntu-12.04_amd64",
        "vboxmanage": [
              [
                  "modifyvm",
