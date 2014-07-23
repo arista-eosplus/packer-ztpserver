@@ -143,7 +143,94 @@
             ],
        "shutdown_command": "/sbin/shutdown -h now",
        "http_directory":"http/"
-    }
+    },
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US<wait>",
+        " netcfg/choose_interface=eth0<wait>",
+        " netcfg/get_hostname=ztps<wait>",
+        " netcfg/get_domain=ztps-test.com<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 7000,
+      "output_directory":"ztps-ubuntu-12.04_amd64",
+      "type": "virtualbox-iso",
+      "name": "virtualbox-windows-iso",
+      "iso_checksum": "3aeb42816253355394897ae80d99a9ba56217c0e98e05294b51f0f5b13bceb54",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.4-server-amd64.iso",
+      "ssh_username": "root",
+      "ssh_password":"eosplus",
+      "ssh_port":"22",
+      "ssh_wait_timeout": "20m",
+      "guest_os_type": "Ubuntu_64",
+      "vm_name":"ztps-ubuntu-12.04_amd64",
+      "vboxmanage": [
+            [
+                "modifyvm",
+                "{{.Name}}",
+                "--memory",
+                "2048"
+            ],
+            [
+                 "modifyvm",
+                 "{{.Name}}",
+                 "--cpus",
+                "1"
+            ],
+            [
+                 "modifyvm",
+                 "{{.Name}}",
+                 "--rtcuseutc",
+                 "on"
+            ],
+            [
+                  "modifyvm",
+                  "{{.Name}}",
+                  "--bioslogodisplaytime",
+                  "1"
+            ],
+            [
+                  "modifyvm",
+                  "{{.Name}}",
+                  "--nic1",
+                  "nat"
+            ],
+            [
+                  "modifyvm",
+                  "{{.Name}}",
+                  "--nic2",
+                  "hostonly"
+            ],
+            [
+                  "modifyvm",
+                  "{{.Name}}",
+                  "--hostonlyadapter2",
+                  "VirtualBox Host-Only Ethernet Adapter #2"
+            ]
+           ],
+      "shutdown_command": "/sbin/shutdown -h now",
+      "http_directory":"http/"
+   }
 	],
 	"provisioners": [
 	  {

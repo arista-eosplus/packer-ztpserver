@@ -115,6 +115,79 @@
             ],
           "shutdown_command": "/sbin/shutdown -h now",
           "http_directory":"http/"
+      },
+      {
+          "boot_command": [
+           "<esc>",
+           "<wait>",
+           "vmlinuz ",
+           "initrd=initrd.img ",
+           "biosdevname=0 net.ifnames=0 ",
+           "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
+           "rd.live.check ",
+           "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
+           "<enter>"
+          ],
+          "boot_wait": "3s",
+          "disk_size": 7000,
+          "output_directory":"ztps-fedora-20-x86_64",
+          "type": "virtualbox-iso",
+          "name": "virtualbox-windows-iso",
+          "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
+          "iso_checksum_type": "sha256",
+          "iso_url": "http://mirrors.xmission.com/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
+          "ssh_username": "root",
+          "ssh_password":"eosplus",
+          "ssh_port":"22",
+          "ssh_wait_timeout": "20m",
+          "guest_os_type": "Fedora_64",
+          "vm_name":"ztps-fedora-20-x86_64",
+          "vboxmanage": [
+              [
+                  "modifyvm",
+                  "{{.Name}}",
+                  "--memory",
+                  "2048"
+              ],
+              [
+                   "modifyvm",
+                   "{{.Name}}",
+                   "--cpus",
+                  "1"
+              ],
+              [
+                   "modifyvm",
+                   "{{.Name}}",
+                   "--rtcuseutc",
+                   "on"
+              ],
+              [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--bioslogodisplaytime",
+                    "1"
+              ],
+              [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--nic1",
+                    "nat"
+              ],
+              [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--nic2",
+                    "hostonly"
+              ],
+              [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--hostonlyadapter2",
+                    "VirtualBox Host-Only Ethernet Adapter #2"
+              ]
+            ],
+          "shutdown_command": "/sbin/shutdown -h now",
+          "http_directory":"http/"
       }
 	 ],
 	"provisioners": [

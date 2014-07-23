@@ -54,8 +54,8 @@ Therefore, the first step is downloading and installing Packer.
     * EG: in ~/.bash_login, add ```PATH=$PATH:/path/to/packer/files```
 4. Run ```packer``` to make sure ```PATH``` is updated.
 
-###Creating a VM for use with VMWare Fusion
-> **Note:** The following procedure was tested using VMWare Fusion 6.0.3.
+###Creating a VM for use with VMWare
+> **Note:** The following procedure was tested using VMWare Fusion 6.0.3/4 and Workstation  
 
 1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or use ```git clone https://github.com/arista-eosplus/packer-ztpserver.git```
 2. ```cd packer-ztpserver/Ubuntu``` to the location of the .json file.
@@ -103,7 +103,7 @@ Therefore, the first step is downloading and installing Packer.
 9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
 
 ###Creating a VM for use with VirtualBox
-> **Note:** The following procedure was tested using VirtualBox 4.3.12.
+> **Note:** The following procedure was tested using VirtualBox 4.3.12. **This does not work on Windows with 4.3.14.**
 
 > **IMPORTANT:** Regarding VirtualBox networks. The default setup places eth1 on vboxnet2. This might not be created in your Virtual Box environment.  
 Therefore, open Vbox and open the General Settings/Preferences menu. Click on the **Network** tab. Click on **Host-only Networks.**
@@ -111,11 +111,11 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
 
 1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or use ```git clone https://github.com/arista-eosplus/packer-ztpserver.git```
 2. ```cd packer-ztpserver/Ubuntu``` to the location of the .json file.
-3. Run ```packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json``` for VirtualBox:
+3. Run ```packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json``` for VirtualBox on MacOSX or Linux, or
+   Run ```packer build --only=virtualbox-windows-iso ztps-ubuntu-12.04.4_amd64.json``` for VirtualBox on Windows
     ```
     phil:Ubuntu phil$ packer build --only=virtualbox-iso ztps-ubuntu-12.04.4_amd64.json
     virtualbox-iso output will be in this color.
-
     ==> virtualbox-iso: Downloading or copying Guest additions checksums
         virtualbox-iso: Downloading or copying: http://download.virtualbox.org/virtualbox/4.3.12/SHA256SUMS
     ==> virtualbox-iso: Downloading or copying Guest additions
@@ -159,11 +159,13 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
 > **Note**: If you created the VM with VBox, you will have to navigate to the output folder and double-click on the .ovf file to import it into Virtual Box.
 
 ##Setting up a Quick Demo
-As part of the installation above, sample files were copied from the ztpserver-demo repo and placed into the necessary locations ( /etc/ztpserver/ and /usr/share/ztpserver).  Follow the steps below to create a quick demo:
+As part of the installation above, sample files were copied from the ztpserver-demo repo and placed into the necessary locations ( /etc/ztpserver/ and /usr/share/ztpserver). If you used [packer-veos](https://github.com/arista-eosplus/packer-veos) to create vEOS nodes, then you can just start the ZTPserver by typing ```ztps``` and watch the nodes retrieve their configuration.  If you have existing vEOS nodes that you would like to use follow the steps below.
 
-1. type ```cd /usr/share/ztpserver/nodes```.
-2. copy the default spine config to a new node that has the MAC address of your local vEOS instance. ```mv 005056761aae <local spine MAC>```.
-3. start ztpserver ```ztps```.
+1. Type ```show version``` in your vEOS node to get it's MAC address.
+2. Log into the ZTPserver with username ```root``` and password ```eosplus```.
+3. Type ```cd /usr/share/ztpserver/nodes```.
+4. Copy the default spine config (001122334455) to a new node that has the MAC address of your local vEOS instance. ```mv 001122334455 <local spine MAC>```.
+5. start ztpserver ```ztps```.
 
 ##Troubleshooting
 ###Gathering Diags
