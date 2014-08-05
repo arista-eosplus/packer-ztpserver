@@ -132,6 +132,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
 4. Once the ISO is downloaded, packer brings up a VBox VM. The installation will proceed without any user input.
 5. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  **Resist the urge to log in and tinker** - the setup.sh script is about to be kicked off.
 6. You'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+
     ```
       ==> virtualbox-iso: Waiting for SSH to become available...
       ==> virtualbox-iso: Connected to SSH!
@@ -142,6 +143,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
       ==> virtualbox-iso: Provisioning with shell script: scripts/setup.sh
       ... (shell script output)
     ```
+    
 7. After some extensive apt-getting (<5minutes), you will see:
     ```
     ==> vmware-iso: Gracefully halting virtual machine...
