@@ -49,7 +49,7 @@ Follow the steps below to install Packer on your local machine.
 1. Download the appropriate binaries - http://www.packer.io/downloads.html
 2. Unzip and move to a desired location eg ~/packer or /usr/local/share/ or /usr/local/bin/
 3. Set ENV variable (or just put Packer somewhere the ```PATH``` is already pointing - ```echo $PATH```)
-    * EG: in ~/.bash_login, add ```PATH=$PATH:/path/to/packer/files```
+    * EG: in ~/.bash_login, add ```EXPORT PATH=$PATH:/path/to/packer/files```
 4. Run ```packer``` to make sure ```PATH``` is updated.
 
 ###Creating a VM for use with VMWare
