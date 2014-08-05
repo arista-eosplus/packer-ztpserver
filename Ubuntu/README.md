@@ -39,7 +39,7 @@ This procedure will:
 * XMPP server configured for im.ztps-test.com
     * XMPP admin user ztpsadmin@im.ztps-test.com, passwd eosplus
 * Apache2 installed and configured for ZTPServer (mod_wsgi) running on port 8080
-* ZTPServer installed (with [sameple files](https://github.com/arista-eosplus/ztpserver-demo) to get you up and running)
+* ZTPServer installed (with [sample files](https://github.com/arista-eosplus/ztpserver-demo) to get you up and running)
 
 ##Installation of Packer
 > **Note:** This installation procedure requires internet access.
