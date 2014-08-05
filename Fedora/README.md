@@ -19,32 +19,34 @@
 #ZTPServer Setup - Packer.io VM Automation
 
 ##Introduction
-You can use Packer.io to automate the creation of the ZTPServer VM.  By using this method, you can be sure that all of the required packages and dependencies are installed right out of the gate.  This procedure will:
+You can use the opensource tool [Packer](http://www.packer.io) to automate the creation of the ZTPServer virtual machine. All of the required packages and dependencies to run ZTPserver are installed right out of the gate by using this method.
+Below, you can choose whether you would like to build the VM for VMWare or VirtualBox.
+This procedure will:
 
 * Create a VM with 7GB Hard Drive
 * 2GB RAM
 * Fedora 20 Minimal Install
-* Python 2.7.5 with PIP
+* Python 2.7.x with PIP
 * Hostname ztps.ztps-test.com
     * eth0 (NAT) DHCP
-    * eth1 (vmnet2) 172.16.130.10/24
+    * eth1 (vboxnet2/vmnet2) 172.16.130.10/24
 * Firewalld disabled.
 * Users
     * root/eosplus and ztpsadmin/eosplus
 * DHCP installed with Option 67 configured (eth1 only)
 * BIND DNS server installed with zone ztps-test.com
     * wildcard forward rule to 8.8.8.8 for all other queries
-    * SRV RR for im.ztps-test.com
+    * XMPP SRV RR for im.ztps-test.com
 * rsyslog-ng installed; Listening on UDP and TCP (port 514)
 * XMPP server configured for im.ztps-test.com
-    * XMPP admin user ztpsadmin, passwd eosplus
+    * XMPP admin user ztpsadmin@im.ztps-test.com, passwd eosplus
 * httpd installed and configured for ZTPServer (mod_wsgi) running on port 8080
-* ZTPServer installed (with sameple files to get you running)
+* ZTPServer installed (with [sameple files](https://github.com/arista-eosplus/ztpserver-demo) to get you up and running)
 
 ##Installation of Packer
 > **Note:** This installation procedure requires internet access.
 
-Packer.io automates the creation of the Virtual Machine.  Therefore, the first step is downloading and installing Packer.
+Follow the steps below to install Packer on your local machine.
 
 1. Download the appropriate binaries - http://www.packer.io/downloads.html
 2. Unzip and move to desired location eg ~/packer or /usr/local/share/ or /usr/local/bin/
@@ -52,11 +54,13 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
     * EG: in ~/.bash_login, add ```PATH=$PATH:/path/to/packer/files```
 4. Run ```packer``` to make sure ```PATH``` is updated.
 
-###Creating a VM for use with VMWare Fusion
-> **Note:** The following procedure was tested using VMWare Fusion 6.0.3.
-> **IMPORTANT** As you read above, eth1 will be placed on vmnet2. Therefore, you need to have this non-standard vmnet setup in your VMware environment.  We've created a script ```setup-fusion.sh```([link](https://github.com/arista-eosplus/packer-veos/blob/master/VMware/setup-fusion.sh)) to help add vmnets so that your setup will work with this basic install, as well as the demo found [here](https://github.com/arista-eosplus/packer-veos). Note that Fusion should be running when you run this script.
+###Creating a VM for use with VMWare
+> **Note:** The following procedure was tested using VMWare Fusion 6.0.3/4 and Workstation
 
-1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or use ```git clone https://github.com/arista-eosplus/packer-ztpserver.git```
+> **IMPORTANT:** Regarding VMware networks: The default setup places eth1 on vmnet2. This might not be created in your VMware environment.  
+Therefore, you may wish to run the [setup-fusion.sh](https://github.com/arista-eosplus/packer-veos/blob/master/VMware/setup-fusion.sh) script to help create this virtual network for you. Once you have downloaded the script, ensure that is is executable, ```chmod +x setup-fusion.sh``` and then run it using ```sudo setup-fusion.sh```.
+
+1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run ```git clone https://github.com/arista-eosplus/packer-ztpserver.git``` from a shell on your local machine.
 2. ```cd packer-ztpserver/Fedora``` to the location of the .json file.
 3. Run ```packer build --only=vmware-iso ztps-fedora_20_x86_64.json```
     You will see:
@@ -65,30 +69,12 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
     vmware-iso output will be in this color.
     ==> vmware-iso: Downloading or copying ISO
     vmware-iso: Downloading or copying: http://mirrors.xmission.com/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso
-    ==> vmware-iso: Creating virtual machine disk
-    ==> vmware-iso: Building and writing VMX file
-    ==> vmware-iso: Starting HTTP server on port 8608
-    ==> vmware-iso: Starting virtual machine...
-    ==> vmware-iso: Waiting 2s for boot...
-    ==> vmware-iso: Connecting to VM via VNC
-    ==> vmware-iso: Typing the boot command over VNC...
-    ==> vmware-iso: Waiting for SSH to become available...
     ```
 4. Once the ISO is downloaded, packer brings up a VMWare VM. The Anaconda installation will proceed without any user input.
-5. After 10 minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
-6. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+5. After 10 minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  **Resist the urge to log in and tinker** - the setup.sh script is about to be kicked off.
+6. You'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+
     ```
-    phil:ztpserver phil$ packer build ztps-fedora_20_x86_64.json
-    vmware-iso output will be in this color.
-    ==> vmware-iso: Downloading or copying ISO
-    vmware-iso: Downloading or copying: http://mirrors.xmission.com/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso
-    ==> vmware-iso: Creating virtual machine disk
-    ==> vmware-iso: Building and writing VMX file
-    ==> vmware-iso: Starting HTTP server on port 8574
-    ==> vmware-iso: Starting virtual machine...
-    ==> vmware-iso: Waiting 2s for boot...
-    ==> vmware-iso: Connecting to VM via VNC
-    ==> vmware-iso: Typing the boot command over VNC...
     ==> vmware-iso: Waiting for SSH to become available...
     ==> vmware-iso: Connected to SSH!
     ==> vmware-iso: Uploading the 'linux' VMware Tools
@@ -96,6 +82,7 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
     ==> vmware-iso: Provisioning with shell script: scripts/setup.sh
     ... (shell script output)
     ```
+
 7. After some extensive yumming (~5minutes), you will see:
     ```
     ==> vmware-iso: Gracefully halting virtual machine...
@@ -113,20 +100,21 @@ Packer.io automates the creation of the Virtual Machine.  Therefore, the first s
     --> vmware-iso: VM files in directory: output-vmware-iso
     ```
 8. You now have a full-featured ZTPServer.
-9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
+9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver. Refer to the [Wiki Documentation](https://github.com/arista-eosplus/ztpserver/wiki/ZTPServer-Reference) to learn how to customize your ZTPServer, or create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
 
 
 ###Creating a VM for use with VirtualBox
-> **Note:** The following procedure was tested using VirtualBox 4.3.12.
+> **Note:** The following procedure was tested using VirtualBox 4.3.12. **This does not work on Windows with 4.3.14.**
 
-> **IMPORTANT:** Regarding VirtualBox networks. The default setup places eth1 on vboxnet2. This might not be created in your Virtual Box environment.  
+> **IMPORTANT:** Regarding VirtualBox networks: The default setup places eth1 on vboxnet2. This might not be created in your Virtual Box environment.  
 Therefore, open Vbox and open the General Settings/Preferences menu. Click on the **Network** tab. Click on **Host-only Networks.**
 Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 255.255.255.0 and turn off the DHCP server.
 
-1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or use ```git clone https://github.com/arista-eosplus/packer-ztpserver.git```
+1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run ```git clone https://github.com/arista-eosplus/packer-ztpserver.git``` from a shell on your local machine.
 2. ```cd packer-ztpserver/Fedora``` to the location of the .json file.
-3. Run ```packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json``` for VirtualBox on MacOSX or Linux
-   Run ```packer build --only=virtualbox-windows-iso ztps-fedora_20_x86_64.json``` for VirtualBox on Windows
+3. Start the packer build
+   * Run ```packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json``` for VirtualBox on MacOSX or Linux
+   * or run ```packer build --only=virtualbox-windows-iso ztps-fedora_20_x86_64.json``` for VirtualBox on Windows
     You will see:
     ```
     phil:Fedora phil$ packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json
@@ -140,8 +128,9 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
         virtualbox-iso: Downloading or copying: http://mirrors.xmission.com/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso
     ```
 4. Once the ISO is downloaded, packer brings up a VBox VM. The installation will proceed without any user input.
-5. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  Resist the urge to log in and tinker - things are still being setup.
+5. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  .  **Resist the urge to log in and tinker** - the setup.sh script is about to be kicked off.
 6. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
+
     ```
     ==> virtualbox-iso: Waiting for SSH to become available...
     ==> virtualbox-iso: Connected to SSH!
@@ -153,14 +142,12 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
         virtualbox-iso: + yum -y install deltarpm
       ... (shell script output)
     ```
+
 7. After some extensive yumming (<5minutes), you will see:
     ```
     ==> virtualbox-iso: Gracefully halting virtual machine...
-        virtualbox-iso:
         virtualbox-iso: Broadcast message from root@ztps.ztps-test.com on pts/0 (Tue 2014-06-17 08:44:25 EDT):
-        virtualbox-iso:
         virtualbox-iso: The system is going down for power-off NOW!
-        virtualbox-iso:
     ==> virtualbox-iso: Preparing to export machine...
         virtualbox-iso: Deleting forwarded port mapping for SSH (host port 3213)
     ==> virtualbox-iso: Exporting virtual machine...
@@ -173,17 +160,19 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
     Build 'vmware-iso' finished.
     ```
 8. You now have a full-featured ZTPServer.
-9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver.
+9. Log into the server with ```root``` and password ```eosplus```. Simply type ```ztps``` to start the ztpserver. Refer to the [Wiki Documentation](https://github.com/arista-eosplus/ztpserver/wiki/ZTPServer-Reference) to learn how to customize your ZTPServer, or create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
+
+> **Note**: If you created the VM with VBox, you will have to navigate to the output folder and double-click on the .ovf file to import it into Virtual Box.
 
 
 ##Setting up a Quick Demo
-As part of the installation above, sample files were copied from the ztpserver-demo repo and placed into the necessary locations ( /etc/ztpserver/ and /usr/share/ztpserver). If you used [packer-veos](https://github.com/arista-eosplus/packer-veos) to create vEOS nodes, then you can just start the ZTPserver by typing ```ztps``` and watch the nodes retrieve their configuration.  If you have existing vEOS nodes that you would like to use follow the steps below.
+As part of the installation above, sample files were copied from the ztpserver-demo repo and placed into the necessary locations ( /etc/ztpserver/ and /usr/share/ztpserver/). If you used [packer-veos](https://github.com/arista-eosplus/packer-veos) to create vEOS nodes, then you can just start the ZTPserver by typing ```ztps``` and watch the nodes retrieve their configuration.  If you have existing vEOS nodes that you would like to use follow the steps below.
 
 1. Type ```show version``` in your vEOS node to get it's MAC address.
 2. Log into the ZTPserver with username ```root``` and password ```eosplus```.
 3. Type ```cd /usr/share/ztpserver/nodes```.
-4. Copy the default spine config (001122334455) to a new node that has the MAC address of your local vEOS instance. ```mv 001122334455 <local spine MAC>```.
-5. start ztpserver ```ztps```
+4. Copy the default spine-1 config (001122334455) to a new node that has the MAC address of your local vEOS instance. ```mv 001122334455 <local spine MAC>```. Repeat this procedure for the 001122334456 node.  This will become spine-2.
+5. start ztpserver ```ztps``` and watch the two nodes retrieve their configuration from ZTP mode.
 
 ##Troubleshooting
 ###Gathering Diags
