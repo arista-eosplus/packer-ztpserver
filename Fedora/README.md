@@ -61,7 +61,7 @@ Follow the steps below to install Packer on your local machine.
 Therefore, you may wish to run the [setup-fusion.sh](https://github.com/arista-eosplus/packer-veos/blob/master/VMware/setup-fusion.sh) script to help create this virtual network for you. Once you have downloaded the script, ensure that is is executable, ```chmod +x setup-fusion.sh``` and then run it using ```sudo setup-fusion.sh```.
 
 1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run ```git clone https://github.com/arista-eosplus/packer-ztpserver.git``` from a shell on your local machine.
-2. ```cd packer-ztpserver/Fedora``` to the location of the .json file.
+2. ```cd packer-ztpserver/Fedora```
 3. Run ```packer build --only=vmware-iso ztps-fedora_20_x86_64.json```
     You will see:
     ```
@@ -111,7 +111,7 @@ Therefore, open Vbox and open the General Settings/Preferences menu. Click on th
 Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 255.255.255.0 and turn off the DHCP server.
 
 1. Retrieve the EOS+ packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run ```git clone https://github.com/arista-eosplus/packer-ztpserver.git``` from a shell on your local machine.
-2. ```cd packer-ztpserver/Fedora``` to the location of the .json file.
+2. ```cd packer-ztpserver/Fedora```
 3. Start the packer build
    * Run ```packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json``` for VirtualBox on MacOSX or Linux
    * or run ```packer build --only=virtualbox-windows-iso ztps-fedora_20_x86_64.json``` for VirtualBox on Windows
