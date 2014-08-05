@@ -1,10 +1,11 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [ZTPServer Setup - Packer.io VM Automation](#ztpserver-setup---packerio-vm-automation)
   - [Introduction](#introduction)
   - [Installation of Packer](#installation-of-packer)
-    - [Creating a VM for use with VMWare Fusion](#creating-a-vm-for-use-with-vmware-fusion)
+    - [Creating a VM for use with VMWare](#creating-a-vm-for-use-with-vmware)
     - [Creating a VM for use with VirtualBox](#creating-a-vm-for-use-with-virtualbox)
   - [Setting up a Quick Demo](#setting-up-a-quick-demo)
   - [Troubleshooting](#troubleshooting)
