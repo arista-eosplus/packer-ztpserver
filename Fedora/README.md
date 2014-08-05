@@ -41,7 +41,7 @@ This procedure will:
 * XMPP server configured for im.ztps-test.com
     * XMPP admin user ztpsadmin@im.ztps-test.com, passwd eosplus
 * httpd installed and configured for ZTPServer (mod_wsgi) running on port 8080
-* ZTPServer installed (with [sameple files](https://github.com/arista-eosplus/ztpserver-demo) to get you up and running)
+* ZTPServer installed (with [sample files](https://github.com/arista-eosplus/ztpserver-demo) to get you up and running)
 
 ##Installation of Packer
 > **Note:** This installation procedure requires internet access.
@@ -116,6 +116,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
    * Run ```packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json``` for VirtualBox on MacOSX or Linux
    * or run ```packer build --only=virtualbox-windows-iso ztps-fedora_20_x86_64.json``` for VirtualBox on Windows
     You will see:
+
     ```
     phil:Fedora phil$ packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json
     virtualbox-iso output will be in this color.
@@ -127,6 +128,7 @@ Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 
     ==> virtualbox-iso: Downloading or copying ISO
         virtualbox-iso: Downloading or copying: http://mirrors.xmission.com/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso
     ```
+
 4. Once the ISO is downloaded, packer brings up a VBox VM. The installation will proceed without any user input.
 5. After a few minutes the OS installation will be complete, the VM will reboot, and you will be presented with a login prompt.  .  **Resist the urge to log in and tinker** - the setup.sh script is about to be kicked off.
 6. Meanwhile, you'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
