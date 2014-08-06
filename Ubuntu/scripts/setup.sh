@@ -53,7 +53,7 @@ ifup eth1
 ######################################
 # CONFIGURE LLDP
 ######################################
-service lldpad status
+service lldpad restart
 lldptool -L -i eth1 adminStatus=rxtx
 lldptool -T -i eth1 -V sysName enableTx=yes
 lldptool -T -i eth1 -V sysDesc enableTx=yes
