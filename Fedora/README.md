@@ -30,16 +30,15 @@ Run ```packer -v``` to make sure Packer is properly installed.
 
 ##2a. Creating a VM for use with VMware Fusion/Workstation
 [I want to build a ZTPServer on VirtualBox - skip to section](#2b-creating-a-vm-for-use-with-virtualbox)
+
 > **Note:** The following procedure was tested using VMWare Fusion 6.0.3/4 and Workstation 10
 
+> **IMPORTANT:** Regarding VMware virtual networks: The default setup places eth1 on vmnet2. This might not be created in your VMware environment. Therefore, you may wish to run the [setup-fusion.sh](https://github.com/arista-eosplus/packer-veos/blob/master/VMware/setup-fusion.sh) script to help create this virtual network for you (VMware Fusion only). Once you have downloaded the script, ensure that is is executable, ```chmod +x setup-fusion.sh``` and then run it using ```sudo setup-fusion.sh```
 
-1. Retrieve the ZTPServer Packer Config files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run
+1. Retrieve the ZTPServer Packer Config files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run from a shell on your local machine.
 <pre>
 git clone https://github.com/arista-eosplus/packer-ztpserver.git
 </pre>
-from a shell on your local machine.
-> **IMPORTANT:** Regarding VMware virtual networks: The default setup places eth1 on vmnet2. This might not be created in your VMware environment.
-Therefore, you may wish to run the [setup-fusion.sh](https://github.com/arista-eosplus/packer-veos/blob/master/VMware/setup-fusion.sh) script to help create this virtual network for you (VMware Fusion only). Once you have downloaded the script, ensure that is is executable, ```chmod +x setup-fusion.sh``` and then run it using ```sudo setup-fusion.sh```
 2. Move into position
 <pre>
 cd packer-ztpserver/Fedora
@@ -111,11 +110,10 @@ Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/devel
 Therefore, open Vbox and open the **General Settings/Preferences** menu. Click on the **Network** tab. Click on **Host-only Networks.**
 Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 255.255.255.0 and turn off the DHCP server.
 
-1. Retrieve the ZTPServer Packer Config files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run
+1. Retrieve the ZTPServer Packer Config files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run from a shell on your local machine.
 <pre>
 git clone https://github.com/arista-eosplus/packer-ztpserver.git
 </pre>
-from a shell on your local machine.
 2. Move into position
 <pre>
 cd packer-ztpserver/Fedora
