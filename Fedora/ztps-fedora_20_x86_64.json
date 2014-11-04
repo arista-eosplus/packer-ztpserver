@@ -1,4 +1,8 @@
 {
+   "variables": {
+      "ram": "2048",
+      "name": "ztps-fedora-20-x86_64"
+   },
    "builders": [
       {
           "boot_command": [
@@ -12,9 +16,9 @@
            "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
            "<enter>"
           ],
-          "boot_wait": "2s",
+          "boot_wait": "3s",
           "disk_size": 7000,
-          "output_directory":"ztps-fedora-20-x86_64",
+          "output_directory":"{{user `name`}}",
           "type": "vmware-iso",
           "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
           "iso_checksum_type": "sha256",
@@ -24,9 +28,9 @@
           "ssh_port":"22",
           "ssh_wait_timeout": "20m",
           "guest_os_type": "fedora-64",
-          "vm_name":"ztps-fedora-20-x86_64",
+          "vm_name":"{{user `name`}}",
           "vmx_data": {
-            "memsize": "2048",
+            "memsize": "{{user `ram`}}",
             "numvcpus": "1",
             "cpuid.coresPerSocket": "1",
             "ethernet0.present" : "TRUE",
@@ -58,7 +62,7 @@
           ],
           "boot_wait": "3s",
           "disk_size": 7000,
-          "output_directory":"ztps-fedora-20-x86_64",
+          "output_directory":"{{user `name`}}",
           "type": "virtualbox-iso",
           "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
           "iso_checksum_type": "sha256",
@@ -68,13 +72,13 @@
           "ssh_port":"22",
           "ssh_wait_timeout": "20m",
           "guest_os_type": "Fedora_64",
-          "vm_name":"ztps-fedora-20-x86_64",
+          "vm_name":"{{user `name`}}",
           "vboxmanage": [
               [
                   "modifyvm",
                   "{{.Name}}",
                   "--memory",
-                  "2048"
+                  "{{user `ram`}}"
               ],
               [
                    "modifyvm",
@@ -130,7 +134,7 @@
           ],
           "boot_wait": "3s",
           "disk_size": 7000,
-          "output_directory":"ztps-fedora-20-x86_64",
+          "output_directory":"{{user `name`}}",
           "type": "virtualbox-iso",
           "name": "virtualbox-windows-iso",
           "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
@@ -141,13 +145,13 @@
           "ssh_port":"22",
           "ssh_wait_timeout": "20m",
           "guest_os_type": "Fedora_64",
-          "vm_name":"ztps-fedora-20-x86_64",
+          "vm_name":"{{user `name`}}",
           "vboxmanage": [
               [
                   "modifyvm",
                   "{{.Name}}",
                   "--memory",
-                  "2048"
+                  "{{user `ram`}}"
               ],
               [
                    "modifyvm",

@@ -6,13 +6,11 @@ yum -y install deltarpm
 #Grab updates and cleanup
 yum -y update yum
 yum -y update
-yum -y clean all
 
 #Install ztps-related related packages
-yum -y install python-devel
+#yum -y install python-devel
 yum -y install python-pip
 yum -y install mod_wsgi
-yum -y install gcc make gcc-c++
 yum -y install tar
 yum -y install wget
 yum -y install libyaml libyaml-devel
@@ -22,13 +20,26 @@ yum -y install net-tools
 yum -y install tcpdump
 yum -y install lldpad
 yum -y install httpd
-yum -y install httpd-devel
 yum -y install dhcp
 yum -y install bind bind-utils
-yum -y install ejabberd
+#yum -y install ejabberd
+yum -y install prosody
 yum -y install rsyslog
 yum -y install ntp
 
+
+######################################
+# Configure tty
+######################################
+#enable serial console:
+systemctl start serial-getty@ttyS0.service
+systemctl enable serial-getty@ttyS0.service
+
+#enable boot logging to console:
+sed -i '/append/ s/$/ console=tty0 console=ttyS0,9600/' /etc/extlinux.conf
+
+#enable login on serial console
+echo 'ttyS0' >> /etc/securetty
 
 ######################################
 # CONFIGURE FIREWALLd

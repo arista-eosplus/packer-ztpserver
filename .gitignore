@@ -1,0 +1,6 @@
+debug.log
+*.iso
+*.rpm
+*.swi
+*.swix
+**/packer_cache
