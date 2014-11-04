@@ -11,7 +11,7 @@ First things first; we need Packer. Follow the steps below if you don't already 
 
 ###Manually
 1. Download the appropriate binaries http://www.packer.io/downloads.html
-2. Unzip and move to desired location eg ~/packer or /usr/local/share/ or /usr/local/bin/
+2. Unzip and move to desired location eg ~/packer or /usr/local/share/
 3. Set ENV variable (or just put Packer somewhere the ```PATH``` is already pointing - ```echo $PATH```)
     * EG: in ~/.bash_login, add ```EXPORT PATH=$PATH:/path/to/packer/files```
 
