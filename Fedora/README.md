@@ -85,15 +85,15 @@ packer build --only=vmware-iso ztps-fedora_20_x86_64.json
     </pre>
 
     You now have a full-featured ZTPServer.  We've gone ahead and placed some demo files from [GitHub](https://github.com/arista-eosplus/ztpserver-demo) to make life a little easier. All of the interesting files are in ```/usr/share/ztpserver``` and ```/etc/ztpserver/```.
-4. Log into the server with user ```root``` and password ```eosplus```. Simply type
+4. Log into the server with user ```root``` and password ```eosplus```. Simply type to start the standalone ztpserver:
 <pre>
 ztps
 </pre>
-to start the standalone ztpserver, or
+or to send all console output to a file:
 <pre>
 ztps --debug </dev/null >/var/log/ztps-console.log 2>&1 &
 </pre>
-to send all console output to a file. You can stop the ztps process anytime by typing
+You can stop the ztps process anytime by typing
 <pre>
 pkill ztps
 </pre>
@@ -170,15 +170,15 @@ packer build --only=virtualbox-windows-iso ztps-fedora_20_x86_64.json
     Build 'vmware-iso' finished.
     </pre>
     You now have a full-featured ZTPServer. We've gone ahead and placed some demo files from [GitHub](https://github.com/arista-eosplus/ztpserver-demo) to make life a little easier. All of the interesting files are in ```/usr/share/ztpserver``` and ```/etc/ztpserver/```.
-4. Log into the server with user ```root``` and password ```eosplus```. Simply type
+4. Log into the server with user ```root``` and password ```eosplus```. Simply type to start the standalone ztpserver:
 <pre>
 ztps
 </pre>
-to start the standalone ztpserver, or
+or to send all console output to a file:
 <pre>
 ztps --debug </dev/null >/var/log/ztps-console.log 2>&1 &
 </pre>
-to send all console output to a file. You can stop the ztps process anytime by typing
+You can stop the ztps process anytime by typing
 <pre>
 pkill ztps
 </pre>
