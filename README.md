@@ -1,4 +1,4 @@
-#ZTPServer Setup - Packer.io VM Automation
+#Automatically Create a Full-Featured ZTPServer
 
 ##Introduction
 You can use [Packer](https://packer.io) to automate the creation of the ZTPServer VM.
@@ -7,8 +7,6 @@ By using this method, you can be sure that all of the required packages and depe
 You can also use Packer to automate the setup of [vEOS nodes](https://github.com/arista-eosplus/packer-veos).
 
 ###What's Supported
-Currently, there is support for:
-
 * **ZTPServer**
   * Ubuntu 12.04 on Virtual Box
   * Ubuntu 12.04 on VMWare
@@ -17,6 +15,5 @@ Currently, there is support for:
 
 
 ##Getting Started
-
  * [Create Fedora ZTPServer VM](https://github.com/arista-eosplus/packer-ztpserver/tree/master/Fedora)
  * [Create Ubuntu ZTPServer VM](https://github.com/arista-eosplus/packer-ztpserver/tree/master/Ubuntu)
