@@ -119,11 +119,11 @@ git clone https://github.com/arista-eosplus/packer-ztpserver.git
 cd packer-ztpserver/Fedora
 </pre>
 3. Let Packer loose to create your VM
-  1. For VirtualBox on MacOSX or Linux
+  1. For VirtualBox on **MacOSX** or **Linux**
 <pre>
 packer build --only=virtualbox-iso ztps-fedora_20_x86_64.json
 </pre>
-  2. For VirtualBox on Windows
+  2. For VirtualBox on **Windows**
 <pre>
 packer build --only=virtualbox-windows-iso ztps-fedora_20_x86_64.json
 </pre>
