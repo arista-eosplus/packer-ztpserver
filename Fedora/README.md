@@ -59,7 +59,7 @@ packer build --only=vmware-iso ztps-fedora_20_x86_64.json
     You'll notice the packer builder ```ssh``` into the VM and begin working on updating, installing and configuring new services.
 
     <pre>
-    ==> vmware-iso: Waiting for SSH to become available...
+    ==> vmware-iso: Waiting for SSH to become available
     ==> vmware-iso: Connected to SSH!
     ==> vmware-iso: Uploading the 'linux' VMware Tools
     ==> vmware-iso: Uploading conf => /tmp/packer
@@ -195,6 +195,8 @@ As part of the installation above, sample files were copied from the [ztpserver-
 3. Type ```cd /usr/share/ztpserver/nodes```.
 4. Copy the default spine-1 config (001122334455) to a new node that has the MAC address of your local vEOS instance. ```mv 001122334455 <local spine MAC>```. Repeat this procedure for the 001122334456 node.  This will become spine-2.
 5. start ztpserver ```ztps``` and watch the two nodes retrieve their configuration from ZTP mode.
+
+
 
 ##The Minor Details
 * Create a VM with 7GB Hard Drive
