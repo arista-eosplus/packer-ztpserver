@@ -120,7 +120,7 @@ git clone https://github.com/arista-eosplus/packer-ztpserver.git
 2. Move into position
 <pre>
 cd packer-ztpserver/Ubuntu
-</pre
+</pre>
 3. Let Packer loose to create your VM
   1. For VirtualBox on MacOSX or Linux
 <pre>
