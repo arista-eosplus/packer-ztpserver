@@ -191,5 +191,5 @@ netmask 255.255.255.0
 # Prepare ZTPServer for WSGI
 ######################################
 #modify SELinux policy
-chown -R ztpsadmin:ztpsadmin /usr/share/ztpserver
+chown -R www-data:www-data /usr/share/ztpserver
 chcon -R -h system_u:object_r:httpd_sys_script_rw_t /usr/share/ztpserver
