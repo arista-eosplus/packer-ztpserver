@@ -22,8 +22,8 @@ yum -y install lldpad
 yum -y install httpd
 yum -y install dhcp
 yum -y install bind bind-utils
-#yum -y install ejabberd
-yum -y install prosody
+yum -y install ejabberd
+#yum -y install prosody
 yum -y install rsyslog
 yum -y install ntp
 
@@ -171,3 +171,10 @@ mkdir images
 cp -R /tmp/packer/files/images .
 mkdir puppet
 cp -R /tmp/packer/files/puppet .
+
+######################################
+# Prepare ZTPServer for WSGI
+######################################
+#modify SELinux policy
+chown -R ztpsadmin:ztpsadmin /usr/share/ztpserver
+chcon -Rv --type=httpd_sys_script_rw_t /usr/share/ztpserver

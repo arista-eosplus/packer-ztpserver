@@ -3,13 +3,13 @@
 #Grab any updates and cleanup
 apt-get -y update
 apt-get -y upgrade
-apt-get -y clean all
+#apt-get -y clean all
 
 #Install ztps-related related packages
 apt-get -y install python-dev
 apt-get -y install python-pip
 apt-get -y install libapache2-mod-wsgi
-apt-get -y install gcc make
+#apt-get -y install gcc make
 #apt-get -y install tar
 #apt-get -y install wget
 apt-get -y install libyaml-dev
@@ -19,7 +19,7 @@ apt-get -y install git
 #apt-get -y install tcpdump
 apt-get -y install lldpad
 apt-get -y install apache2
-apt-get -y install apache2-dev
+#apt-get -y install apache2-dev
 apt-get -y install isc-dhcp-server
 apt-get -y install bind9 dnsutils
 apt-get -y install ejabberd
@@ -186,3 +186,10 @@ iface eth1 inet static
 address 172.16.130.10
 netmask 255.255.255.0
 " > /etc/network/interfaces
+
+######################################
+# Prepare ZTPServer for WSGI
+######################################
+#modify SELinux policy
+chown -R ztpsadmin:ztpsadmin /usr/share/ztpserver
+chcon -Rv --type=httpd_sys_script_rw_t /usr/share/ztpserver

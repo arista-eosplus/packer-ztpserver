@@ -1,4 +1,4 @@
-WSGIDaemonProcess ztpserver user=www-data group=www-data threads=5
+WSGIDaemonProcess ztpserver user=ztpsadmin group=ztpsadmin threads=25
 WSGIScriptAlias / /etc/ztpserver/ztpserver.wsgi
 
 <Directory /ztpserver>

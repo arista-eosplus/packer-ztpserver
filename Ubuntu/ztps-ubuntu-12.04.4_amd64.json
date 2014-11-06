@@ -1,4 +1,8 @@
 {
+    "variables": {
+         "ram": "2048",
+         "name": "ztps-ubuntu-12.04_amd64"
+    },
     "builders": [
       {
         "boot_command": [
@@ -28,7 +32,7 @@
         ],
         "boot_wait": "5s",
         "disk_size": 7000,
-        "output_directory":"ztps-ubuntu-12.04_amd64",
+        "output_directory":"{{user `name`}}-vmware",
         "type": "vmware-iso",
         "iso_checksum": "3aeb42816253355394897ae80d99a9ba56217c0e98e05294b51f0f5b13bceb54",
         "iso_checksum_type": "sha256",
@@ -38,9 +42,9 @@
         "ssh_port":"22",
         "ssh_wait_timeout": "20m",
         "guest_os_type": "linux",
-        "vm_name":"ztps-ubuntu-12.04_amd64",
+        "vm_name":"{{user `name`}}",
         "vmx_data": {
-          "memsize": "2048",
+          "memsize": "{{user `ram`}}",
           "numvcpus": "1",
           "cpuid.coresPerSocket": "1",
           "ethernet0.present" : "TRUE",
@@ -86,7 +90,7 @@
        ],
        "boot_wait": "5s",
        "disk_size": 7000,
-       "output_directory":"ztps-ubuntu-12.04_amd64",
+       "output_directory":"{{user `name`}}-vbox",
        "type": "virtualbox-iso",
        "iso_checksum": "3aeb42816253355394897ae80d99a9ba56217c0e98e05294b51f0f5b13bceb54",
        "iso_checksum_type": "sha256",
@@ -96,13 +100,13 @@
        "ssh_port":"22",
        "ssh_wait_timeout": "20m",
        "guest_os_type": "Ubuntu_64",
-       "vm_name":"ztps-ubuntu-12.04_amd64",
+       "vm_name":"{{user `name`}}",
        "vboxmanage": [
              [
                  "modifyvm",
                  "{{.Name}}",
                  "--memory",
-                 "2048"
+                 "{{user `ram`}}"
              ],
              [
                   "modifyvm",
@@ -172,7 +176,7 @@
       ],
       "boot_wait": "5s",
       "disk_size": 7000,
-      "output_directory":"ztps-ubuntu-12.04_amd64",
+      "output_directory":"{{user `name`}}-vbox",
       "type": "virtualbox-iso",
       "name": "virtualbox-windows-iso",
       "iso_checksum": "3aeb42816253355394897ae80d99a9ba56217c0e98e05294b51f0f5b13bceb54",
@@ -183,13 +187,13 @@
       "ssh_port":"22",
       "ssh_wait_timeout": "20m",
       "guest_os_type": "Ubuntu_64",
-      "vm_name":"ztps-ubuntu-12.04_amd64",
+      "vm_name":"{{user `name`}}",
       "vboxmanage": [
             [
                 "modifyvm",
                 "{{.Name}}",
                 "--memory",
-                "2048"
+                "{{user `ram`}}"
             ],
             [
                  "modifyvm",
