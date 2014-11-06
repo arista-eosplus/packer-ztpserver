@@ -100,6 +100,7 @@ pkill ztps
 You can also run the ZTPServer as an Apache Web Server Gateway Interface.  All of the necessary config is already in place.  Just start Apache:
 <pre>
 systemctl start httpd
+systemctl enable httpd
 </pre>
 WSGI related logs will be in ```/var/log/messages``` and ```/var/log/httpd/error.log```
 Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/develop/) to learn how to customize your ZTPServer. You can create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
@@ -190,6 +191,7 @@ pkill ztps
 You can also run the ZTPServer as an Apache Web Server Gateway Interface.  All of the necessary config is already in place.  Just start Apache:
 <pre>
 systemctl start httpd
+systemctl enable httpd
 </pre>
 WSGI related logs will be in ```/var/log/messages``` and ```/var/log/httpd/error.log```
 Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/develop/) to learn how to customize your ZTPServer. You can create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
