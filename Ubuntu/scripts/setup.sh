@@ -116,7 +116,7 @@ rm /etc/apache2/sites-enabled/000-default
 cp /tmp/packer/001-ztpserver /etc/apache2/sites-enabled/001-ztpserver
 
 service apache2 restart
-#Stopping apache since ZTPServer will manage port 8080
+#Stopping apache since ZTPServer will run in standalone mode on port 8080
 service apache2 stop
 update-rc.d -f apache2 remove
 service apache2 status
@@ -192,4 +192,4 @@ netmask 255.255.255.0
 ######################################
 #modify SELinux policy
 chown -R ztpsadmin:ztpsadmin /usr/share/ztpserver
-chcon -Rv --type=httpd_sys_script_rw_t /usr/share/ztpserver
+chcon -R -h system_u:object_r:httpd_sys_script_rw_t /usr/share/ztpserver

@@ -114,9 +114,9 @@ ejabberdctl status
 ######################################
 mv /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak
 cp /tmp/packer/httpd.conf /etc/httpd/conf/httpd.conf
-systemctl restart httpd.service
+#systemctl restart httpd.service
 #Stopping httpd since ztps will manage this
-systemctl stop httpd.service
+#systemctl stop httpd.service
 
 ######################################
 # CONFIGURE BIND
