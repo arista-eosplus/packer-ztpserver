@@ -100,6 +100,11 @@ You can stop the ztps process anytime by typing
 <pre>
 pkill ztps
 </pre>
+You can also run the ZTPServer as an Apache Web Server Gateway Interface.  All of the necessary config is already in place.  Just start Apache:
+<pre>
+service apache2 start
+</pre>
+WSGI related logs will be in ```/var/log/messages``` and ```/var/log/apache/error.log```
 Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/develop/) to learn how to customize your ZTPServer. You can create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
 
 
@@ -185,6 +190,11 @@ You can stop the ztps process anytime by typing
 <pre>
 pkill ztps
 </pre>
+You can also run the ZTPServer as an Apache Web Server Gateway Interface.  All of the necessary config is already in place.  Just start Apache:
+<pre>
+service apache2 start
+</pre>
+WSGI related logs will be in ```/var/log/messages``` and ```/var/log/apache/error.log```
 Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/develop/) to learn how to customize your ZTPServer. You can create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
 
 > **Note**: If you created the VM with VBox, you will have to navigate to the output folder and double-click on the .ovf file to import it into Virtual Box.
