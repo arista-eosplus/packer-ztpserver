@@ -220,7 +220,7 @@ As part of the installation above, sample files were copied from the ztpserver-d
     * eth1 (vboxnet2/vmnet2) Runs ZTPServer services
 * UFW Firewall disabled.
 * Users
-    * root/eosplus and ztpsadmin/eosplus
+    * root/eosplus and ztpsadmin/eosplus (see [#3](/../../issues/3))
 * DHCP installed with Option 67 configured (eth1 only)
 * BIND DNS server installed with zone ztps-test.com
     * wildcard forward rule to 8.8.8.8 for all other queries
