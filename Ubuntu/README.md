@@ -93,9 +93,9 @@ packer build --only=vmware-iso ztps-ubuntu-12.04.4_amd64.json
 ztps
 </pre>
 or to send all console output to a file:
-<pre>
+```
 ztps --debug </dev/null >/var/log/ztps-console.log 2>&1 &
-</pre>
+```
 You can stop the ztps process anytime by typing
 <pre>
 pkill ztps
@@ -183,9 +183,9 @@ packer build --only=virtualbox-windows-iso ztps-ubuntu-12.04.4_amd64.json
 ztps
 </pre>
 or to send all console output to a file:
-<pre>
+```
 ztps --debug </dev/null >/var/log/ztps-console.log 2>&1 &
-</pre>
+```
 You can stop the ztps process anytime by typing
 <pre>
 pkill ztps
