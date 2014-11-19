@@ -110,11 +110,17 @@ Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/devel
 
 
 ##2b. Creating a VM for use with VirtualBox
-> **Note:** The following procedure was tested using VirtualBox 4.3.12. **This does not work on Windows with 4.3.14.**
+> **Notes:** 
+   * the following procedure was tested using VirtualBox 4.3.12. **This does NOT work on Windows with 4.3.14.**
+   * **VBoxBuilder will export a VM, but will NOT import/register it in VirtualBox afterwards.** Please go to the newly created folder and double click the .ovf file in order to import the VM into VirtualBox. 
 
 > **IMPORTANT:** Regarding VirtualBox networks: The default setup places eth1 on vboxnet2. This might not be created in your Virtual Box environment.  
-Therefore, open Vbox and open the **General Settings/Preferences** menu. Click on the **Network** tab. Click on **Host-only Networks.**
-Add or Modify vboxnet2.  Configure the IP Address for 172.16.130.1, the Netmask 255.255.255.0 and turn off the DHCP server.
+Therefore, you will need to:
+   * open VirtualBox 
+   * open the **General Settings/Preferences** menu
+   * click on the **Network** tab
+   * click on **Host-only Networks**
+   * add or modify vboxnet2: configure the IP Address for 172.16.130.1, Netmask 255.255.255.0 and turn off the DHCP server
 
 1. Retrieve the ZTPServer Packer Config files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run from a shell on your local machine.
 <pre>
