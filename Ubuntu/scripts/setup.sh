@@ -26,6 +26,9 @@ apt-get -y install ejabberd
 apt-get -y install ntp
 #apt-get -y install rsyslog
 
+#Add ztpsadmin to sudo group
+adduser ztpsadmin sudo
+
 
 ######################################
 # CONFIGURE FIREWALL
