@@ -85,7 +85,7 @@ packer build --only=vmware-iso ztps-fedora_20_x86_64.json
     </pre>
 
     You now have a full-featured ZTPServer.  We've gone ahead and placed some demo files from [GitHub](https://github.com/arista-eosplus/ztpserver-demo) to make life a little easier. All of the interesting files are in ```/usr/share/ztpserver``` and ```/etc/ztpserver/```.
-4. Log into the server with user ```root``` and password ```eosplus```. Simply type to start the standalone ztpserver:
+4. Log into the server with user ```ztpsadmin``` and password ```eosplus```. Simply type the following to start the standalone ztpserver:
 <pre>
 ztps
 </pre>
@@ -110,13 +110,13 @@ Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/devel
 
 
 ##2b. Creating a VM for use with VirtualBox
-> **Notes:** 
+> **Notes:**
    * the following procedure was tested using VirtualBox 4.3.12. **This does NOT work on Windows with 4.3.14.**
-   * **VBoxBuilder will export a VM, but will NOT import/register it in VirtualBox afterwards.** Please go to the newly created folder and double click the .ovf file in order to import the VM into VirtualBox. 
+   * **VBoxBuilder will export a VM, but will NOT import/register it in VirtualBox afterwards.** Please go to the newly created folder and double click the .ovf file in order to import the VM into VirtualBox.
 
 > **IMPORTANT:** Regarding VirtualBox networks: The default setup places eth1 on vboxnet2. This might not be created in your Virtual Box environment.  
 Therefore, you will need to:
-   * open VirtualBox 
+   * open VirtualBox
    * open the **General Settings/Preferences** menu
    * click on the **Network** tab
    * click on **Host-only Networks**
@@ -182,7 +182,7 @@ packer build --only=virtualbox-windows-iso ztps-fedora_20_x86_64.json
     Build 'vmware-iso' finished.
     </pre>
     You now have a full-featured ZTPServer. We've gone ahead and placed some demo files from [GitHub](https://github.com/arista-eosplus/ztpserver-demo) to make life a little easier. All of the interesting files are in ```/usr/share/ztpserver``` and ```/etc/ztpserver/```.
-4. Log into the server with user ```root``` and password ```eosplus```. Simply type to start the standalone ztpserver:
+4. Log into the server with user ```ztpsadmin``` and password ```eosplus```. Simply type to start the standalone ztpserver:
 <pre>
 ztps
 </pre>
