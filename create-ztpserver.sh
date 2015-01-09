@@ -36,12 +36,29 @@ usage="usage:create-ztpserver.sh [vmware|virtualbox] [fedora|ubuntu]\n"
         exit 1
     fi
 
+########################
+# Functions
+########################
+function findLibrary {
+  LIB_DIR=$(sudo find $1 -name $2)
+
+  if [[ ! $LIB_DIR ]];then
+    echo "ERROR:Cannot find Fusion library files - is it installed?"
+    exit 0
+  fi
+
+  echo "Library files found here:"$LIB_DIR
+}
+
+
+########################
 # Installation Variables
+########################
 HYPER=$1
 DIST=$2
 PACKER_URL=https://dl.bintray.com/mitchellh/packer
-PACKER_VERSION=0.7.2
-FUSION_LIB=/Applications/VMware\ Fusion.app/Contents/Librar/
+PACKER_VERSION=0.7.5
+#FUSION_LIB=/Applications/VMware\ Fusion.app/Contents/Librar/
 
 
 # Set Environment
@@ -71,28 +88,29 @@ else
 
     if [ -r ~/.profile ];then
         echo "PATH=$PATH:~/packer-bin" >> ~/.profile
+        source ~/.profile
     elif [ -r ~/.bash_profile ];then
         echo "PATH=$PATH:~/packer-bin" >> ~/.bash_profile
+        source ~/.bash_profile
     else
         echo "PATH=$PATH:~/packer-bin" >> ~/.bashrc
+        source ~/.bash_rc
     fi
-    PATH=$PATH:~/packer-bin
+    export PATH=$PATH:~/packer-bin
 
     # Confirm Packer is installed
-    echo "Packer is running with version "$(packer -v)
+    echo "Packer is installed with version "$(packer -v)
 fi
 
 
 # Modify/create vmnets for specified hypervisor
 
 if [ $HYPER == "vmware" ];then
-    if [[ $OS == "darwin" && -d "$FUSION_LIB" ]];then
-        echo "Found the Fusion Library files in default location"
-    else
-        # Use find to see if we can locate the right directory
-        FUSION_LIB=$(sudo find /Applications -name vmnet-cli)
-        echo "Found new directory: "$FUSION_LIB
-        echo "ERROR:Cannot find Fusion library files"
-        exit 0
-    fi
+  if [[ $OS == "darwin" ]];then
+    findLibrary "/Applications" "vmnet-cli"
+    
+
+  elif [[ $OS == "Linux" ]];then
+    findLibrary "/" "vmware-networks"
+  fi
 fi
