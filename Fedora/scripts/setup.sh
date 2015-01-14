@@ -144,9 +144,9 @@ systemctl status dhcpd.service
 cd /home/ztpsadmin
 
 #clone from GitHub
-git clone https://github.com/arista-eosplus/ztpserver.git -b develop
+git clone https://github.com/arista-eosplus/ztpserver.git
 cd ztpserver
-#git checkout v1.0.0
+git checkout v1.2.0
 
 #build/install
 python setup.py build
