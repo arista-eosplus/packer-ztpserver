@@ -186,8 +186,6 @@ def createVBoxNets(hostOS, hostArch, libDir):
                 print "Something else went wrong"
                 raise
 
-
-
 def createVmNets(hostOS, hostArch, libDir):
     print "Creating virtual networks for VMware"
 
@@ -334,9 +332,13 @@ def main():
     if hyper == "vmware":
         if hostOS == "darwin":
             libDir = find("/Applications", "vmnet-cli")
+        elif hostOS == "windows":
+            libDir = find("\\", "vmnetcfg")
     elif hyper == "virtualbox":
         if hostOS == "darwin":
             libDir = find("/usr", "VBoxManage")
+        elif hostOS == "windows":
+            libDir = find("\\", "VBoxManage")
 
     # Test to see if Packer is installed
     try:
