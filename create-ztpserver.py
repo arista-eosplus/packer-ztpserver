@@ -50,20 +50,6 @@ def find(path, name):
             print "Found file here:%s" % root
             return os.path.join(root, name)
 
-def getVirtualNetworks(hyper,hostOS):
-    try:
-        print "Looking for virtual networks"
-        subprocess.call(["packer", "-v"])
-    except OSError as e:
-        if e.errno == os.errno.ENOENT:
-            print "Packer installation failed"
-            raise
-        else:
-            print "Something else went wrong"
-            raise
-
-    print "Packer installed!"
-
 def getUnzipped(url, dest, fn):
     name = os.path.join(dest, fn)
     try:
@@ -307,7 +293,7 @@ def registerVbox(hyper, libDir, vmName, vmOS):
     #Import the VM into Vbox
     if hyper == "virtualbox":
         cmd = "%s/vboxmanage" % libDir
-        vmPath = "*/%s.ovf" % vmName
+        vmPath = "%s-vbox/%s.ovf" % (vmName, vmName)
         if vmOS == "fedora":
             path = "Fedora/"
         else:
