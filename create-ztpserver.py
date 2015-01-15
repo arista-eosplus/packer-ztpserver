@@ -56,7 +56,7 @@ def getUnzipped(url, dest, fn):
     try:
         print "Downloading Packer binaries to %s" % name
         print "This may take a few minutes (~85MB)..."
-        #name, hdrs = urllib.urlretrieve(url, name)
+        name, hdrs = urllib.urlretrieve(url, name)
     except IOError, e:
         print "Can't retrieve %r to %r: %s" % (url, name, e)
         raise
