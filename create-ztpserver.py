@@ -378,6 +378,7 @@ def createVM(hyper, hostOS, vmOS, vmName, user):
         return vmName
     elif rc > 0:
         print "Packer install failed!!!"
+        print "Please copy raise an issue at https://github.com/arista-eosplus/packer-ztpserver/issues with your console output."
         exit(rc)
 
 def registerVbox(hyper, libDir, vmName, vmOS):
