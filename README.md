@@ -105,9 +105,9 @@ ztps
   WSGI related logs will be in ```/var/log/messages``` and ```/var/log/httpd/error.log```
   Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/develop/) to learn how to customize your ZTPServer. You can create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
 
-###Post-Installation
-If Packer is installed via the script above, the packer binary wasn't permanently
-added to your ```PATH```.  If you intend on using Packer again, you might consider
+###Post-Installation Tips
+If Packer is installed via the script above, the packer binary path wasn't permanently
+added to your system ```PATH``` variable.  If you intend on using Packer again, you might consider
 updating your ```PATH``` variable.
 
 **NIX-Based Terminal**
