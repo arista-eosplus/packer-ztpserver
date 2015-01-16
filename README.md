@@ -36,7 +36,9 @@ the default networks.
 
 ###Requirements
 * Python (this has been tested on Python 2.7.x)
+ * [Get Python 2.7.x for Windows](https://www.python.org/downloads/windows/)
 * Git (technically optional but makes life easier)
+ * [Get Git](http://git-scm.com/downloads)
 * User running script has sudo privileges (NIX-based)
 
 ###Go Time
@@ -103,6 +105,22 @@ ztps
   WSGI related logs will be in ```/var/log/messages``` and ```/var/log/httpd/error.log```
   Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/develop/) to learn how to customize your ZTPServer. You can create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
 
+###Post-Installation
+If Packer is installed via the script above, the packer binary wasn't permanently
+added to your ```PATH```.  If you intend on using Packer again, you might consider
+updating your ```PATH``` variable.
+
+**NIX-Based Terminal**
+<pre>
+echo "export PATH=$PATH:~/packer-bin" >> ~/.bash_profile
+</pre>
+and then restart your bash.
+
+**Windows-Based Command Prompt**
+<pre>
+setx PATH "%PATH%;%USERPROFILE%\packer-bin"
+</pre>
+and then restart your ```cmd.exe```.
 
 ##The Minor Details
 ###Virtual Networks
