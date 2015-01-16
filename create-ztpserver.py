@@ -126,11 +126,19 @@ def createVBoxNets(hostOS, hostArch, libDir):
         cmd = ["ifconfig", "-a"]
         regex = "vboxnet(\d+)"
         activeNets = getActiveNets(cmd, regex)
-        print activeNets
+
+        print "\n\nAnalyzing Host-Only Networks..."
 
         # Create vmnets
         vmnets = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         if len(activeNets) < len(vmnets):
+            if len(activeNets) > 0:
+                print "Existing Host-Only networks found:"
+                for n in activeNets:
+                    print " - %s" % n
+            else:
+                print "No existing Host-Only networks found."
+
             numCreate = len(vmnets) - len(activeNets)
             for i in range(0, numCreate):
                 try:
@@ -334,6 +342,95 @@ def createVmNets(hostOS, hostArch, libDir):
 
         return True
 
+    elif hostOS == "windows":
+        # Open VMware Fusion App
+        cmd = ["%s/vmware.exe" % libDir]
+        process = subprocess.Popen(cmd)
+
+        #Get list of current networks
+        cmd = ["ipconfig"]
+        regex = "VMnet(\d+)"
+        activeNets = getActiveNets(cmd, regex)
+
+        print "\n\nAnalyzing Host-Only Networks..."
+
+        # Create/modify vmnets
+        vmnets = ["2", "3", "4", "5", "6", "7", "9", "10", "11"]
+
+        try:
+            if len(activeNets) > 0:
+                print "Existing vmnets found:"
+                for n in activeNets:
+                    print " - VMnet%s" % n
+            else:
+                print "No existing vmnets found."
+
+            # Trim vmnets
+            createNets = [x for x in vmnets if x not in activeNets]
+
+            netcfgCmd = r"%s/vnetlib.exe" % libDir
+            print netcfgCmd
+
+            # Stop Workstation services - nat dhcp
+            print "Stopping VMware Workstation NAT service"
+            rc = subprocess.call([netcfgCmd, "--", "stop", "nat"])
+            print "Stopping VMware Workstation DHCP service"
+            rc = subprocess.call([netcfgCmd, "--", "stop", "dhcp"])
+
+            # create networks that dont already exist
+            for net in createNets:
+                netName = "vmnet%s" % net
+                print " - Creating new virtual network %s" % netName
+                rc = subprocess.call([netcfgCmd, "--", "add",
+                                      "adapter", netName])
+                rc = subprocess.call([netcfgCmd, "--", "update",
+                                      "adapter", netName])
+
+            # Configure ALL of the networks in vmnets list
+            for net in vmnets:
+                network = 128 + int(net)
+                netName = "vmnet%s" % net
+                mask = "255.255.255.0"
+                addr = "172.16.%s.0" % network
+                print "Modifying virtual network %s" % netName
+                print " - setting netmask to %s" % mask
+                rc = subprocess.call([netcfgCmd, "--", "set", "vnet",
+                                      netName, "mask", mask])
+                print " - setting address to %s" % addr
+                rc = subprocess.call([netcfgCmd, "--", "set", "vnet",
+                                      netName, "addr", addr])
+                print " - disabling DHCP server on vmnet%s" % net
+                rc = subprocess.call([netcfgCmd, "--", "remove",
+                                      "dhcp", netName])
+                print " - disabling NAT on vmnet%s" % net
+                rc = subprocess.call([netcfgCmd, "--", "remove",
+                                      "nat", netName])
+                print " - saving changes for vmnet%s" % net
+                rc = subprocess.call([netcfgCmd, "--", "update",
+                                      "dhcp", netName])
+                rc = subprocess.call([netcfgCmd, "--", "update",
+                                      "nat", netName])
+                rc = subprocess.call([netcfgCmd, "--", "update",
+                                      "adapter", netName])
+
+            # Start DHCP and NAT
+            print "Starting VMware Workstation NAT service"
+            rc = subprocess.call([netcfgCmd, "--", "start", "nat"])
+            print "Starting VMware Workstation DHCP service"
+            rc = subprocess.call([netcfgCmd, "--", "start", "dhcp"])
+
+            print "VMNets Installed!"
+        except OSError as e:
+            if e.errno == os.errno.ENOENT:
+                print "vmnet creation failed. Check output above"
+                raise
+            else:
+                print "Something else went wrong"
+                raise
+
+        return True
+
+
 def createVM(hyper, hostOS, vmOS, vmName, user):
     d = datetime.datetime.now()
     time = d.strftime("%Y%m%d_%H%M%S")
@@ -351,7 +448,7 @@ def createVM(hyper, hostOS, vmOS, vmName, user):
     print "##############################################"
     print bcolors.ENDC
 
-    if hostOS == "windows":
+    if (hostOS == "windows" and hyper=="virtualbox"):
         build = "--only=%s-windows-iso" % hyper
     else:
         build = "--only=%s-iso" % hyper
@@ -427,7 +524,7 @@ def main():
         if hostOS == "darwin":
             libDir = find("/Applications", "vmnet-cli")
         elif hostOS == "windows":
-            libDir = find("C:\\", "vmnetcfg")
+            libDir = find("C:\\", "vmware.exe")
     elif hyper == "virtualbox":
         if hostOS == "darwin":
             libDir = find("/usr", "VBoxManage")

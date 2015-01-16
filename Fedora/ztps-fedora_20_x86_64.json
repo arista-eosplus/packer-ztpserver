@@ -16,7 +16,7 @@
            "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
            "<enter>"
           ],
-          "boot_wait": "3s",
+          "boot_wait": "10s",
           "disk_size": 7000,
           "output_directory":"{{user `name`}}-vmware",
           "type": "vmware-iso",
@@ -61,7 +61,7 @@
            "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
            "<enter>"
           ],
-          "boot_wait": "3s",
+          "boot_wait": "10s",
           "disk_size": 7000,
           "output_directory":"{{user `name`}}-vbox",
           "type": "virtualbox-iso",
@@ -134,7 +134,7 @@
            "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
            "<enter>"
           ],
-          "boot_wait": "3s",
+          "boot_wait": "10s",
           "disk_size": 7000,
           "output_directory":"{{user `name`}}-vbox",
           "type": "virtualbox-iso",
@@ -161,6 +161,18 @@
                    "{{.Name}}",
                    "--cpus",
                   "1"
+              ],
+              [
+                   "modifyvm",
+                   "{{.Name}}",
+                   "--pae",
+                   "off"
+              ],
+              [
+                   "modifyvm",
+                   "{{.Name}}",
+                   "--hwvirtex",
+                   "off"
               ],
               [
                    "modifyvm",
