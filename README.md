@@ -85,16 +85,16 @@ optional arguments:
 <pre>
 ztps
 </pre>
-or to send all console output to a file:
-```
-ztps --debug </dev/null >~/ztps-console.log 2>&1 &
-```
-You can stop the ztps process anytime by typing
-<pre>
-pkill ztps
-</pre>
-You can also run the ZTPServer as an Apache Web Server Gateway Interface.  All of the necessary config is already in place.  Just start Apache:
-> **Note:** The ZTPServer can only run in Standalone mode OR as an WSGI App. Kill the ztps process first if you would like to run the WSGI App.
+  or to send all console output to a file:
+  ```
+  ztps --debug </dev/null >~/ztps-console.log 2>&1 &
+  ```
+  You can stop the ztps process anytime by typing
+  <pre>
+  pkill ztps
+  </pre>
+  You can also run the ZTPServer as an Apache Web Server Gateway Interface.  All of  the necessary config is already in place.  Just start Apache:
+  > **Note:** The ZTPServer can only run in Standalone mode OR as an WSGI App. Kill the ztps process first if you would like to run the WSGI App.
 
   <pre>
   systemctl start httpd

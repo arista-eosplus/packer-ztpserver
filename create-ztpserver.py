@@ -54,13 +54,17 @@ def find(path, name):
 def getUnzipped(url, dest, fn):
     name = os.path.join(dest, fn)
     try:
-        print "Downloading Packer binaries to %s" % name
-        print "This may take a few minutes (~85MB)..."
-        name, hdrs = urllib.urlretrieve(url, name)
+        if find(dest, fn.split(".zip")[0]):
+            print "%s already exists, no need to download again." % fn.split(".zip")[0]
+        else:
+            print "Downloading Packer binaries to %s" % name
+            print "This may take a few minutes (~85MB)..."
+            name, hdrs = urllib.urlretrieve(url, name)
+            print "Download successful!"
     except IOError, e:
         print "Can't retrieve %r to %r: %s" % (url, name, e)
         raise
-    print "Download successful!"
+
     try:
         print "Unzipping %s..." % name
         with zipfile.ZipFile(name, "r") as z:
@@ -81,7 +85,7 @@ def installPacker(hostOS, hostArch):
     url = "%s/packer_%s_%s_%s.zip" % (packerURL, packerVersion, hostOS, arch)
 
     installPath = os.path.expanduser('~')
-    packerDir = getUnzipped(url, installPath, "packer-bin.zip")
+    packerZipDir = getUnzipped(url, installPath, "packer-bin.zip")
     packerDir = os.path.join(installPath, "packer-bin")
 
     # Add packer-bin to path
@@ -127,7 +131,7 @@ def createVBoxNets(hostOS, hostArch, libDir):
         regex = "vboxnet(\d+)"
         activeNets = getActiveNets(cmd, regex)
 
-        print "\n\nAnalyzing Host-Only Networks..."
+        print "\nAnalyzing Host-Only Networks..."
 
         # Create vmnets
         vmnets = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
@@ -157,11 +161,9 @@ def createVBoxNets(hostOS, hostArch, libDir):
         try:
             for net in vmnets:
 
-                print "###############################"
                 print "Creating/modifying vboxnet%s" % net
-                print "###############################"
                 network = int(net) + 128
-                print "Assigning vboxnet%s to 172.16.%s.1/24" % (net, network)
+                print " - Assigning vboxnet%s to 172.16.%s.1/24" % (net, network)
 
                 cmd = "%s/vboxmanage" % libDir
                 vboxnet = "vboxnet%s" % net
@@ -183,6 +185,7 @@ def createVBoxNets(hostOS, hostArch, libDir):
             regex = "NetworkName:\s+(\S+)"
             hostOnlyDHCPSrvs = re.findall(r"%s" % regex, dhcpList)
 
+            print "Disabling DHCP Servers"
             for srv in hostOnlyDHCPSrvs:
                 print "Disabling HostOnlyIf DHCP Server %s" % srv
                 subprocess.call([cmd, "dhcpserver", "remove", "--netname", srv])
@@ -208,7 +211,7 @@ def createVBoxNets(hostOS, hostArch, libDir):
         regex = "Ethernet.*(VirtualBox Host-Only.*):"
         activeNets = getActiveNets(cmd, regex)
 
-        print "\n\nAnalyzing Host-Only Networks..."
+        print "\nAnalyzing Host-Only Networks..."
 
         # Create vmnets
         vmnets = ("", " #2", " #3", " #4", " #5", " #6", " #7", " #8", " #9", " #10")
@@ -268,9 +271,7 @@ def createVBoxNets(hostOS, hostArch, libDir):
             regex = "NetworkName:\s+(\S+.*)"
             hostOnlyDHCPSrvs = re.findall(r"%s" % regex, dhcpList)
 
-            print "######################"
             print "Disabling DHCP Servers"
-            print "######################"
             for srv in hostOnlyDHCPSrvs:
                 print " - Disabling DHCP Server %s" % srv
                 subprocess.call([cmd, "dhcpserver", "remove", "--netname", "%s" % srv], shell=True)
@@ -291,15 +292,28 @@ def createVmNets(hostOS, hostArch, libDir):
         cmd = ["open", "-a", "VMware Fusion"]
         process = subprocess.Popen(cmd)
 
+        #Get list of current networks
+        cmd = ["ifconfig"]
+        regex = "vmnet(\d+)"
+        activeNets = getActiveNets(cmd, regex)
+
+        print "\nAnalyzing Host-Only Networks..."
+
         # Create/modify vmnets
         vmnets = (2, 3, 4, 5, 6, 7, 9, 10, 11)
         try:
+            if len(activeNets) > 0:
+                print "Existing vmnets found:"
+                for n in activeNets:
+                    print " - VMnet%s" % n
+            else:
+                print "No existing vmnets found."
+
             print "Creating/modifying vmnets"
             for net in vmnets:
 
-                print "###############################"
                 print "Creating/modifying vmnet%s" % net
-                print "###############################"
+                print "---------------------------"
 
                 network = int(net) + 128
                 netcfgCmd = r"%s/vmnet-cfgcli" % libDir
@@ -315,19 +329,16 @@ def createVmNets(hostOS, hostArch, libDir):
                 subprocess.call(["sudo", netcfgCmd, "vnetcfgadd", virtualCmd, "yes"])
 
             # Configure and restart to take effect
-            print "##################################"
             print "Committing vmware network services"
-            print "##################################"
+            print "----------------------------------"
             subprocess.call(["sudo", cfgCmd, "--configure"])
 
-            print "##################################"
             print "Stopping vmware network services"
-            print "##################################"
+            print "--------------------------------"
             subprocess.call(["sudo", cfgCmd, "--stop"])
 
-            print "##################################"
             print "Starting vmware network services"
-            print "##################################"
+            print "--------------------------------"
             subprocess.call(["sudo", cfgCmd, "--start"])
 
             print "VMNets Installed!"
@@ -352,7 +363,7 @@ def createVmNets(hostOS, hostArch, libDir):
         regex = "VMnet(\d+)"
         activeNets = getActiveNets(cmd, regex)
 
-        print "\n\nAnalyzing Host-Only Networks..."
+        print "\nAnalyzing Host-Only Networks..."
 
         # Create/modify vmnets
         vmnets = ["2", "3", "4", "5", "6", "7", "9", "10", "11"]
@@ -429,7 +440,6 @@ def createVmNets(hostOS, hostArch, libDir):
                 raise
 
         return True
-
 
 def createVM(hyper, hostOS, vmOS, vmName, user):
     d = datetime.datetime.now()
