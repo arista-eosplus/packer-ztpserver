@@ -460,6 +460,8 @@ def createVM(hyper, hostOS, vmOS, vmName, user):
 
     if (hostOS == "windows" and hyper=="virtualbox"):
         build = "--only=%s-windows-iso" % hyper
+    elif vmOS == "eos":
+        build = "--only=%s-iso-eos" % hyper
     else:
         build = "--only=%s-iso" % hyper
 
@@ -467,10 +469,13 @@ def createVM(hyper, hostOS, vmOS, vmName, user):
 
     try:
         if vmOS == "fedora":
-                rc = subprocess.call(["packer", "build", build, "-var", nameVar,
+            rc = subprocess.call(["packer", "build", build, "-var", nameVar,
                                  "ztps-fedora_20_x86_64.json" ], cwd="Fedora")
+        elif vmOS == "eos":
+            rc = subprocess.call(["packer", "build", build, "-var", nameVar,
+                                 "ztps-fedora_20_i386.json" ], cwd="Fedora")
         elif vmOS == "ubuntu":
-                rc = subprocess.call(["packer", "build", build, "-var", nameVar,
+            rc = subprocess.call(["packer", "build", build, "-var", nameVar,
                                  "ztps-ubuntu-12.04.4_amd64.json" ], cwd="Ubuntu")
         print "Return code:%s" % rc
     except OSError as e:
@@ -507,7 +512,7 @@ def main():
 
     # Argument Variables
     hypervisors = ["vmware", "virtualbox"]
-    oses = ["fedora", "ubuntu"]
+    oses = ["fedora", "ubuntu", "eos"]
 
     parser = argparse.ArgumentParser(description="Automatically install the ZTPServer Demo")
     parser.add_argument("hypervisor", choices=hypervisors, help="Hypervisor to create VM in")

@@ -14,6 +14,7 @@ You can also use Packer to automate the setup of [vEOS nodes](https://github.com
 * **Host Operating Systems**
   * Windows
   * Mac Osx
+  * EOS (run as a 32-bit Fedora 20 VM on EOS)
 * **Host Hypervisors**
   * VirtualBox
   * VMware Fusion
@@ -44,19 +45,19 @@ the default networks.
 ###Go Time
 ####Script Arguments
 <pre>
-arista:packer-ztpserver arista$ ./create-ztpserver.py --help
+arista:packer-ztpserver arista$ ./create-ztpserver.py -h
 usage: create-ztpserver.py [-h] [-N VMNAME]
-{vmware,virtualbox} {fedora,ubuntu}
+{vmware,virtualbox} {fedora,ubuntu,eos}
 
 Automatically install the ZTPServer Demo
 
 positional arguments:
 {vmware,virtualbox}   Hypervisor to create VM in
-{fedora,ubuntu}       Desired OS to use for VM
+{fedora,ubuntu,eos}   Desired OS to use for VM
 
 optional arguments:
--h, --help                  show this help message and exit
--N VMNAME, --vmname VMNAME  The Virtual Machine name Prefix
+-h, --help                 show this help message and exit
+-N VMNAME, --vmname VMNAME The Virtual Machine name
 </pre>
 
 1. Retrieve the ZTPServer Packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run from a shell on your local machine.

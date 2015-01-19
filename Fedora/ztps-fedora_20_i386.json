@@ -1,0 +1,125 @@
+{
+  "variables": {
+    "ram": "1024",
+    "name": "ztps-fedora-20-i386-eos"
+  },
+  "builders": [
+    {
+      "boot_command": [
+        "<esc>",
+        "<wait>",
+        "vmlinuz ",
+        "initrd=initrd.img ",
+        "biosdevname=0 ",
+        "net.ifnames=0 ",
+        "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-32b.cfg",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 4000,
+      "disk_type_id": "0",
+      "output_directory":"{{user `name`}}-vmware",
+      "type": "vmware-iso",
+      "name": "vmware-iso-eos",
+      "iso_checksum": "f9a2f536d9b87a5c403ecbe9113b9c4a32d2d31cb0a9c0944753807dfd3aef2a",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://download.fedoraproject.org/pub/fedora/linux/releases/20/Fedora/i386/iso/Fedora-20-i386-netinst.iso",
+      "ssh_username": "root",
+      "ssh_password":"eosplus",
+      "ssh_port":"22",
+      "ssh_wait_timeout": "20m",
+      "guest_os_type": "otherlinux",
+      "vm_name":"{{user `name`}}",
+      "vmx_data": {
+        "memsize": "{{user `ram`}}",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1",
+        "ethernet0.present" : "TRUE",
+        "ethernet0.virtualdev" :  "e1000",
+        "ethernet0.connectionType" : "nat",
+        "ethernet0.startConnected" : "TRUE",
+        "ethernet0.pcislotnumber" : "32"
+      },
+      "shutdown_command": "/sbin/shutdown -h now",
+      "http_directory":"http/"
+    },
+    {
+      "boot_command": [
+        "<esc>",
+        "<wait>",
+        "vmlinuz ",
+        "initrd=initrd.img ",
+        "biosdevname=0 ",
+        "net.ifnames=0 ",
+        "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-32b.cfg",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 4000,
+      "output_directory":"{{user `name`}}-vbox",
+      "type": "virtualbox-iso",
+      "name": "virtualbox-iso-eos",
+      "iso_checksum": "f9a2f536d9b87a5c403ecbe9113b9c4a32d2d31cb0a9c0944753807dfd3aef2a",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://download.fedoraproject.org/pub/fedora/linux/releases/20/Fedora/i386/iso/Fedora-20-i386-netinst.iso",
+      "ssh_username": "root",
+      "ssh_password":"eosplus",
+      "ssh_port":"22",
+      "ssh_wait_timeout": "20m",
+      "guest_os_type": "Fedora",
+      "vm_name":"{{user `name`}}",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `ram`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--rtcuseutc",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--bioslogodisplaytime",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic1",
+          "nat"
+        ]
+      ],
+      "shutdown_command": "/sbin/shutdown -h now",
+      "http_directory":"http/"
+    }
+  ],
+  "provisioners": [
+    {
+      "source": "conf",
+      "destination": "/tmp/packer",
+      "type":"file"
+    },
+    {
+      "source": "files",
+      "destination": "/tmp/packer",
+      "type":"file"
+    },
+    {
+      "scripts": [
+        "scripts/setup-32b.sh"
+      ],
+      "type" : "shell"
+    }
+  ]
+}
