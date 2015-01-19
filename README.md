@@ -69,7 +69,7 @@ optional arguments:
 
   **NIX-based Terminal**
   <pre>
-  python ./create-ztpserver.py [vmware|virtualbox] [fedora|ubuntu] --vmname VMNAME-PREFIX
+  python ./create-ztpserver.py [vmware|virtualbox] [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
   </pre>
   > **IMPORTANT:** You may have to enter your sudo password so keep an eye on it.
 
@@ -77,7 +77,7 @@ optional arguments:
   > **IMPORTANT:** Open the command prompt as an Administrator so you don't have to authorize every command
 
   <pre>
-  C:\> C:\Python27\python.exe ./create-ztpserver.py [vmware|virtualbox] [fedora|ubuntu] --vmname VMNAME-PREFIX
+  C:\> C:\Python27\python.exe ./create-ztpserver.py [vmware|virtualbox] [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
   </pre>
   > **Note:** Your Python executable might be somewhere else, or part of your
     %PATH% in which case you could just type ```python```, but this is just
@@ -107,6 +107,7 @@ ztps
   Refer to the [ZTPServer Documentation](http://ztpserver.readthedocs.org/en/develop/) to learn how to customize your ZTPServer. You can create some [vEOS](https://github.com/arista-eosplus/packer-veos) nodes using Packer to help get your demo working even faster.
 
 ###Post-Installation Tips
+####Set the PATH Variable
 If Packer is installed via the script above, the packer binary path wasn't permanently
 added to your system ```PATH``` variable.  If you intend on using Packer again, you might consider
 updating your ```PATH``` variable.
@@ -122,6 +123,44 @@ and then restart your bash.
 setx PATH "%PATH%;%USERPROFILE%\packer-bin"
 </pre>
 and then restart your ```cmd.exe```.
+
+####Upload the EOS VM to an Arista Switch
+**Step 1:** First SCP the resulting .vmdk file to your Arista switch
+```
+scp disk.vmdk admin@eos-switch-1:/mnt/dst/path
+```
+**Step 2:** Create Virtual-Machine entry.  Log into your EOS switch:
+```
+eos-switch-1#conf
+eos-switch-1(config)#virtual-machine ztps
+eos-switch-1(config-ztps)#disk-image usb1:/path/disk.vmdk image-format vmdk
+eos-switch-1(config-ztps)#memory-size 1024 ! Choose a desired size
+eos-switch-1(config-ztps)#enable
+```
+**Step 3:** Confirm the VM is running
+```
+eos-switch-1#show virtual-machine
+VM Name              Enabled    State
+-------              -------    -----
+ztps                 Yes        Running
+```
+**Step 4:** Console into the ZTPServer VM
+```
+eos-switch-1#bash
+[admin@eos-switch-1 ~]$ sudo virsh
+virsh # list
+Id Name                 State
+----------------------------------
+1 ztps                  running
+
+virsh # console 1
+error: Failed to get local hostname
+error: Failed to get connection hostname
+Connected to domain ztps
+Escape character is ^]
+
+[root@ztps ~]# echo hello world
+```
 
 ##The Minor Details
 ###Virtual Networks
