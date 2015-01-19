@@ -31,10 +31,11 @@ yum -y install ntp
 ######################################
 # enable serial console
 systemctl start serial-getty@ttyS0.service
-systemctl enable serial-getty@ttyS0.service
+# systemctl enable serial-getty@ttyS0.service
+ln -s /usr/lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@ttyS0.service
 
 # enable boot logging to console:
-sed -i '/append/ s/$/ console=tty0 console=ttyS0,9600/' /etc/extlinux.conf
+#sed -i '/append/ s/$/ console=tty0 console=ttyS0,9600/' /etc/extlinux.conf
 
 # enable login on serial console
 echo 'ttyS0' >> /etc/securetty
