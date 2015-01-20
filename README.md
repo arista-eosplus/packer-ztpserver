@@ -211,7 +211,6 @@ Host-only virtual networks will be created:
 * DHCP installed with Option 67 configured (eth1 only)
 * BIND DNS server installed with zone ztps-test.com
 * wildcard forward rule to 8.8.8.8 for all other queries
-* XMPP SRV RR for im.ztps-test.com
 * rsyslog-ng installed; Listening on UDP and TCP (port 514)
 * XMPP server configured for im.ztps-test.com
 * XMPP admin user ztpsadmin@im.ztps-test.com, passwd eosplus
