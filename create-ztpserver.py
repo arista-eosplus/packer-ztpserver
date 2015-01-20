@@ -88,6 +88,11 @@ def installPacker(hostOS, hostArch):
     packerZipDir = getUnzipped(url, installPath, "packer-bin.zip")
     packerDir = os.path.join(installPath, "packer-bin")
 
+    # Make all Packer binaries executable
+    for file in os.listdir(packerDir):
+        file = os.path.join(packerDir, file)
+        os.chmod(file, 0o777)
+
     # Add packer-bin to path
     os.environ["PATH"] += os.pathsep + packerDir
     print "Updated path to be:%s" % os.environ["PATH"]
