@@ -513,6 +513,8 @@ def registerVbox(hyper, libDir, vmName, vmOS):
 
         subprocess.call([ cmd, "import", vmPath ], cwd=path)
 
+        return True
+
 def main():
 
     # Argument Variables
