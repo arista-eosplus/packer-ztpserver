@@ -51,6 +51,9 @@ def find(path, name):
             print "Found file here:%s" % root
             return os.path.join(root, name)
 
+    # File wasn't found, return false
+    return False
+
 def getUnzipped(url, dest, fn):
     name = os.path.join(dest, fn)
     try:

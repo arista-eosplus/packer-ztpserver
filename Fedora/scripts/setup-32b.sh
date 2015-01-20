@@ -221,6 +221,14 @@ HWADDR=${MAC}
 
 hostnamectl set-hostname ztps
 
+######################################
+# Prepare ZTPServer for WSGI
+######################################
+chown -R ztpsadmin:ztpsadmin /usr/share/ztpserver
+chmod -R ug+rw /usr/share/ztpserver
+chcon -Rv --type=httpd_sys_script_rw_t /usr/share/ztpserver
+
+
 ####Cleanup
 yum remove -y fedora-logos
 #yum remove -y kernel-3.11.10-301.fc20.x86_64
