@@ -199,7 +199,7 @@ Host-only virtual networks will be created:
   * NAT off
 
 ###The ZTPServer VM
-* Create a VM with 7GB Hard Drive
+* 7GB Hard Drive
 * 2GB RAM
 * Python 2.7.x with Pip
 * Hostname ztps.ztps-test.com
