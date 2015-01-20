@@ -498,7 +498,7 @@ def registerVbox(hyper, libDir, vmName, vmOS):
     if hyper == "virtualbox":
         cmd = "%s/vboxmanage" % libDir
         vmPath = "%s-vbox/%s.ovf" % (vmName, vmName)
-        if vmOS == "fedora":
+        if (vmOS == "fedora" or vmOS == "eos"):
             path = "Fedora/"
         else:
             path = "Ubuntu/"
