@@ -29,15 +29,17 @@ yum -y install ntp
 ######################################
 # Configure tty
 ######################################
+#enable serial console:
 # enable serial console
 systemctl start serial-getty@ttyS0.service
 # systemctl enable serial-getty@ttyS0.service
 ln -s /usr/lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@ttyS0.service
 
-# enable boot logging to console:
-#sed -i '/append/ s/$/ console=tty0 console=ttyS0,9600/' /etc/extlinux.conf
+#enable boot logging to console:
+sed -i '/append/ s/$/ console=tty0 console=ttyS0,9600 net.ifnames=0/' /etc/extlinux.conf
+sed -i '/append/ s/$/ console=tty0 console=ttyS0,9600 net.ifnames=0/' /boot/extlinux/extlinux.conf
 
-# enable login on serial console
+#enable login on serial console
 echo 'ttyS0' >> /etc/securetty
 
 ######################################
@@ -170,4 +172,5 @@ cp -R /tmp/packer/files/puppet .
 # Prepare ZTPServer for WSGI
 ######################################
 chown -R ztpsadmin:ztpsadmin /usr/share/ztpserver
+chmod -R ug+rw /usr/share/ztpserver
 chcon -Rv --type=httpd_sys_script_rw_t /usr/share/ztpserver
