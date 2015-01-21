@@ -89,8 +89,8 @@ def main():
 
     parser = argparse.ArgumentParser(description="Automatically install the ZTPServer Demo")
     parser.add_argument("-H", "--hypervisor", required=True, choices=hypervisors, help="Hypervisor to create VM in")
-    parser.add_argument("-O", "--os", required=True, choices=oses, help="Desired OS to use for VM")
-    parser.add_argument("-N", "--vmname", help="The Virtual Machine name")
+    parser.add_argument("-o", "--os", required=True, choices=oses, help="Desired OS to use for VM")
+    parser.add_argument("-n", "--vmname", help="The Virtual Machine name")
     args = parser.parse_args()
 
     # Set install variables

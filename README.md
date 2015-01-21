@@ -46,18 +46,16 @@ the default networks.
 ####Script Arguments
 <pre>
 arista:packer-ztpserver arista$ ./create-ztpserver.py -h
-usage: create-ztpserver.py [-h] [-N VMNAME]
-{vmware,virtualbox} {fedora,ubuntu,eos}
+usage: create-ztpserver.py [-h] -H {vmware,virtualbox} -o {fedora,ubuntu,eos}
+[-n VMNAME]
 
 Automatically install the ZTPServer Demo
 
-positional arguments:
-{vmware,virtualbox}   Hypervisor to create VM in
-{fedora,ubuntu,eos}   Desired OS to use for VM
-
 optional arguments:
--h, --help                 show this help message and exit
--N VMNAME, --vmname VMNAME The Virtual Machine name
+-h, --help            show this help message and exit
+-H {vmware,virtualbox}, --hypervisor {vmware,virtualbox} Hypervisor to create VM in
+-o {fedora,ubuntu,eos}, --os {fedora,ubuntu,eos} Desired OS to use for VM
+-n VMNAME, --vmname VMNAME The Virtual Machine name
 </pre>
 
 1. Retrieve the ZTPServer Packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run from a shell on your local machine.
@@ -69,7 +67,7 @@ optional arguments:
 
   **NIX-based Terminal**
   <pre>
-  python ./create-ztpserver.py [vmware|virtualbox] [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
+  python ./create-ztpserver.py -H [vmware|virtualbox] -o [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
   </pre>
   > **IMPORTANT:** You may have to enter your sudo password so keep an eye on it.
 
