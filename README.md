@@ -75,7 +75,7 @@ optional arguments:
   > **IMPORTANT:** Open the command prompt as an Administrator so you don't have to authorize every command
 
   <pre>
-  C:\> C:\Python27\python.exe ./create-ztpserver.py [vmware|virtualbox] [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
+  C:\> C:\Python27\python.exe ./create-ztpserver.py -H [vmware|virtualbox] -o  [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
   </pre>
   > **Note:** Your Python executable might be somewhere else, or part of your
     %PATH% in which case you could just type ```python```, but this is just
