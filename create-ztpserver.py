@@ -77,7 +77,7 @@ def registerVbox(hyper, libDir, vmName, vmOS):
         print "Path: %s" % path
         print "VM: %s" % vmPath
 
-        subprocess.call([ cmd, "import", vmPath ], cwd=path)
+        subprocess.call([ cmd, "import", "--options", "keepallmacs", vmPath ], cwd=path)
 
         return True
 
