@@ -12,7 +12,7 @@ newPath = os.path.join( os.getcwd(), "lib")
 sys.path.append(newPath)
 from eosplusvnets import *
 
-def createVM(hyper, hostOS, vmOS, vmName, user):
+def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd):
     d = datetime.datetime.now()
     time = d.strftime("%Y%m%d_%H%M%S")
     if vmName:
@@ -40,14 +40,14 @@ def createVM(hyper, hostOS, vmOS, vmName, user):
 
     try:
         if vmOS == "fedora":
-            rc = subprocess.call(["packer build %s -var \'name=%s\' ztps-fedora_20_x86_64.json" %
-                                   (build, vmName)], shell=True, cwd="Fedora")
+            rc = subprocess.call(["%s build %s -var \'name=%s\' ztps-fedora_20_x86_64.json" %
+                                   (packerCmd, build, vmName)], shell=True, cwd="Fedora")
         elif vmOS == "eos":
-            rc = subprocess.call(["packer build %s -var \'name=%s\' ztps-fedora_20_i386.json" %
-                                   (build, vmName)], shell=True, cwd="Fedora")
+            rc = subprocess.call(["%s build %s -var \'name=%s\' ztps-fedora_20_i386.json" %
+                                   (packerCmd, build, vmName)], shell=True, cwd="Fedora")
         elif vmOS == "ubuntu":
-            rc = subprocess.call(["packer build %s -var \'name=%s\' ztps-ubuntu-12.04.4_amd64.json" %
-                                   (build, vmName)], shell=True, cwd="Ubuntu")
+            rc = subprocess.call(["%s build %s -var \'name=%s\' ztps-ubuntu-12.04.4_amd64.json" %
+                                   (packerCmd, build, vmName)], shell=True, cwd="Ubuntu")
         print "Return code:%s" % rc
     except OSError as e:
         if e.errno == os.errno.ENOENT:
@@ -124,21 +124,16 @@ def main():
             libDir = find("C:\\", "VBoxManage.exe")
 
     # Test to see if Packer is installed
-    try:
-        subprocess.call(["packer -v"], shell=True)
-    except OSError as e:
-        if e.errno == os.errno.ENOENT:
-            print "Packer not found - install it"
-            installPacker(hostOS, hostArch)
-        else:
-            print "Something else went wrong"
-            raise
+    packerCmd = which("packer")
+    if not packerCmd:
+        print "Packer not found - install it"
+        packerCmd = installPacker(hostOS, hostArch)
 
     # Setup Virtual Networks
     if hyper == "virtualbox":
         if createVBoxNets(hostOS, hostArch, libDir):
             # Create the Virtual Machine
-            vmName = createVM(hyper, hostOS, vmOS, vmName, user)
+            vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd)
             if vmName:
                 if registerVbox(hyper, libDir, vmName, vmOS):
                     print "Successfully created VM %s!" % vmName
@@ -147,7 +142,7 @@ def main():
     elif hyper == "vmware":
         if createVmNets(hostOS, hostArch, libDir):
             # Create the Virtual Machine
-            vmName = createVM(hyper, hostOS, vmOS, vmName, user)
+            vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd)
             if vmName:
                 print "Successfully created VM %s!" % vmName
                 exit(0)
