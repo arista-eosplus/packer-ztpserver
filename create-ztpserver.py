@@ -40,14 +40,14 @@ def createVM(hyper, hostOS, vmOS, vmName, user):
 
     try:
         if vmOS == "fedora":
-            rc = subprocess.call(["packer", "build", build, "-var", nameVar,
-                                 "ztps-fedora_20_x86_64.json" ], cwd="Fedora")
+            rc = subprocess.call(["packer build %s -var \'name=%s\' ztps-fedora_20_x86_64.json" %
+                                   (build, vmName)], shell=True, cwd="Fedora")
         elif vmOS == "eos":
-            rc = subprocess.call(["packer", "build", build, "-var", nameVar,
-                                 "ztps-fedora_20_i386.json" ], cwd="Fedora")
+            rc = subprocess.call(["packer build %s -var \'name=%s\' ztps-fedora_20_i386.json" %
+                                   (build, vmName)], shell=True, cwd="Fedora")
         elif vmOS == "ubuntu":
-            rc = subprocess.call(["packer", "build", build, "-var", nameVar,
-                                 "ztps-ubuntu-12.04.4_amd64.json" ], cwd="Ubuntu")
+            rc = subprocess.call(["packer build %s -var \'name=%s\' ztps-ubuntu-12.04.4_amd64.json" %
+                                   (build, vmName)], shell=True, cwd="Ubuntu")
         print "Return code:%s" % rc
     except OSError as e:
         if e.errno == os.errno.ENOENT:
@@ -98,7 +98,7 @@ def main():
     if user == "root" and os.getenv("SUDO_USER") != "root":
         print bcolors.FAIL, "ERROR: DO NOT RUN THIS SCRIPT WITH SUDO", bcolors.ENDC
         exit()
-    
+
     hyper = args.hypervisor
     vmOS = args.os
     if args.vmname:
