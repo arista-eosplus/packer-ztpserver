@@ -93,8 +93,12 @@ def main():
     parser.add_argument("-n", "--vmname", help="The Virtual Machine name")
     args = parser.parse_args()
 
-    # Set install variables
+        # Set install variables
     user = getpass.getuser()
+    if user == "root" and os.getenv("SUDO_USER") != "root":
+        print bcolors.FAIL, "ERROR: DO NOT RUN THIS SCRIPT WITH SUDO", bcolors.ENDC
+        exit()
+    
     hyper = args.hypervisor
     vmOS = args.os
     if args.vmname:
