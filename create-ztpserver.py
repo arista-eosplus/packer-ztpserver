@@ -40,14 +40,17 @@ def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd):
 
     try:
         if vmOS == "fedora":
-            rc = subprocess.call(["%s build %s -var \'name=%s\' ztps-fedora_20_x86_64.json" %
-                                   (packerCmd, build, vmName)], shell=True, cwd="Fedora")
+            wkd = os.path.join(os.getcwd(), "Fedora")
+            rc = subprocess.call("%s build %s -var name='%s' ztps-fedora_20_x86_64.json" %
+                                   (packerCmd, build, vmName), shell=True, cwd=wkd)
         elif vmOS == "eos":
-            rc = subprocess.call(["%s build %s -var \'name=%s\' ztps-fedora_20_i386.json" %
-                                   (packerCmd, build, vmName)], shell=True, cwd="Fedora")
+            wkd = os.path.join( os.getcwd(), "Fedora")
+            rc = subprocess.call("%s build %s -var name='%s' ztps-fedora_20_i386.json" %
+                                   (packerCmd, build, vmName), shell=True, cwd=wkd)
         elif vmOS == "ubuntu":
-            rc = subprocess.call(["%s build %s -var \'name=%s\' ztps-ubuntu-12.04.4_amd64.json" %
-                                   (packerCmd, build, vmName)], shell=True, cwd="Ubuntu")
+            wkd = os.path.join( os.getcwd(), "Ubuntu")
+            rc = subprocess.call("%s build %s -var name='%s' ztps-ubuntu-12.04.4_amd64.json" %
+                                   (packerCmd, build, vmName), shell=True, cwd=wkd)
         print "Return code:%s" % rc
     except OSError as e:
         if e.errno == os.errno.ENOENT:
