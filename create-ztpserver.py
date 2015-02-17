@@ -15,6 +15,11 @@ from eosplusvnets import *
 def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd):
     d = datetime.datetime.now()
     time = d.strftime("%Y%m%d_%H%M%S")
+
+    # Set packer logging variable
+    os.environ['PACKER_LOG'] = "enable"
+    os.environ['PACKER_LOG_PATH'] = "./packer-debug.log"
+
     if vmName:
         vmName = "%s-%s_%s" % (vmName, vmOS, time)
     else:
@@ -87,7 +92,7 @@ def registerVbox(hyper, libDir, vmName, vmOS):
 def main():
 
     # Argument Variables
-    hypervisors = ["vmware", "virtualbox"]
+    hypervisors = ["vmware", "esxi" , "virtualbox"]
     oses = ["fedora", "ubuntu", "eos"]
 
     parser = argparse.ArgumentParser(description="Automatically install the ZTPServer Demo")
@@ -149,6 +154,12 @@ def main():
             if vmName:
                 print "Successfully created VM %s!" % vmName
                 exit(0)
+
+    elif hyper == "esxi":
+        vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd)
+        if vmName:
+            print "Successfully created VM %s!" % vmName
+            exit(0)
 
 
 if __name__ == "__main__":
