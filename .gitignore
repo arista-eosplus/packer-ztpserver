@@ -1,6 +1,9 @@
-debug.log
+*debug.log
 *.iso
 *.rpm
 *.swi
 *.swix
+*.py[o|c]
 **/packer_cache
+**/*-vmware/
+**/*-vbox/
