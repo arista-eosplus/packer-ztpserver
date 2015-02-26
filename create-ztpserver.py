@@ -8,11 +8,13 @@
 
 import sys
 import os
-newPath = os.path.join( os.getcwd(), "lib")
+newPath = os.path.join(os.getcwd(), "lib")
 sys.path.append(newPath)
 from eosplusvnets import *
 
-def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd):
+
+def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd, **kwargs):
+
     d = datetime.datetime.now()
     time = d.strftime("%Y%m%d_%H%M%S")
 
@@ -34,7 +36,7 @@ def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd):
     print "##############################################"
     print bcolors.ENDC
 
-    if (hostOS == "windows" and hyper=="virtualbox"):
+    if (hostOS == "windows" and hyper == "virtualbox"):
         build = "--only=%s-windows-iso" % hyper
     elif vmOS == "eos":
         build = "--only=%s-iso-eos" % hyper
@@ -46,16 +48,49 @@ def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd):
     try:
         if vmOS == "fedora":
             wkd = os.path.join(os.getcwd(), "Fedora")
-            rc = subprocess.call("%s build %s -var name='%s' ztps-fedora_20_x86_64.json" %
-                                   (packerCmd, build, vmName), shell=True, cwd=wkd)
+            builder_file = "ztps-fedora_20_x86_64.json"
+            if hyper == "esxi":
+                esxi = kwargs["esxi_info"]
+                opts = "-var name='%s' -var esxi-user='%s' -var esxi-passwd='%s' \
+                        -var esxi-host='%s' -var esxi-path='%s' \
+                        -var esxi-network='%s'" % (vmName, esxi['user'],
+                                                   esxi['passwd'], esxi['host'],
+                                                   esxi['datastore'],
+                                                   esxi['network'])
+            else:
+                opts = "-var name='%s'" % vmName
+
         elif vmOS == "eos":
-            wkd = os.path.join( os.getcwd(), "Fedora")
-            rc = subprocess.call("%s build %s -var name='%s' ztps-fedora_20_i386.json" %
-                                   (packerCmd, build, vmName), shell=True, cwd=wkd)
+            wkd = os.path.join(os.getcwd(), "Fedora")
+            builder_file = "ztps-fedora_20_i386.json"
+            if hyper == "esxi":
+                esxi = kwargs["esxi_info"]
+                opts = "-var name='%s' -var esxi-user='%s' -var esxi-passwd='%s' \
+                        -var esxi-host='%s' -var esxi-path='%s' \
+                        -var esxi-network='%s'" % (vmName, esxi['user'],
+                                                   esxi['passwd'], esxi['host'],
+                                                   esxi['datastore'],
+                                                   esxi['network'])
+            else:
+                opts = "-var name='%s'" % vmName
+
         elif vmOS == "ubuntu":
-            wkd = os.path.join( os.getcwd(), "Ubuntu")
-            rc = subprocess.call("%s build %s -var name='%s' ztps-ubuntu-12.04.4_amd64.json" %
-                                   (packerCmd, build, vmName), shell=True, cwd=wkd)
+            wkd = os.path.join(os.getcwd(), "Ubuntu")
+            builder_file = "ztps-ubuntu-12.04.4_amd64.json"
+            if hyper == "esxi":
+                esxi = kwargs["esxi_info"]
+                opts = "-var name='%s' -var esxi-user='%s' -var esxi-passwd='%s' \
+                        -var esxi-host='%s' -var esxi-path='%s' \
+                        -var esxi-network='%s'" % (vmName, esxi['user'],
+                                                   esxi['passwd'], esxi['host'],
+                                                   esxi['datastore'],
+                                                   esxi['network'])
+            else:
+                opts = "-var name='%s'" % vmName
+
+        rc = subprocess.call("%s build %s %s %s" % (packerCmd, build, opts, builder_file),
+                             shell=True, cwd=wkd)
+
         print "Return code:%s" % rc
     except OSError as e:
         if e.errno == os.errno.ENOENT:
@@ -69,8 +104,9 @@ def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd):
         return vmName
     elif rc > 0:
         print "Packer install failed!!!"
-        print "Please copy raise an issue at https://github.com/arista-eosplus/packer-ztpserver/issues with your console output."
+        print "Please copy error ouput and raise an issue at https://github.com/arista-eosplus/packer-ztpserver/issues with your console output."
         exit(rc)
+
 
 def registerVbox(hyper, libDir, vmName, vmOS):
     #Import the VM into Vbox
@@ -85,23 +121,30 @@ def registerVbox(hyper, libDir, vmName, vmOS):
         print "Path: %s" % path
         print "VM: %s" % vmPath
 
-        subprocess.call([ cmd, "import", "--options", "keepallmacs", vmPath ], cwd=path)
+        subprocess.call([cmd, "import", "--options", "keepallmacs", vmPath], cwd=path)
 
         return True
+
 
 def main():
 
     # Argument Variables
-    hypervisors = ["vmware", "esxi" , "virtualbox"]
+    hypervisors = ["vmware", "esxi", "virtualbox"]
     oses = ["fedora", "ubuntu", "eos"]
 
     parser = argparse.ArgumentParser(description="Automatically install the ZTPServer Demo")
     parser.add_argument("-H", "--hypervisor", required=True, choices=hypervisors, help="Hypervisor to create VM in")
     parser.add_argument("-o", "--os", required=True, choices=oses, help="Desired OS to use for VM")
     parser.add_argument("-n", "--vmname", help="The Virtual Machine name")
+    parser.add_argument("-u", "--esxi-user", help="The ESXi username")
+    parser.add_argument("-e", "--esxi-host", help="The IP or hostname of the ESXi host")
+    parser.add_argument("-p", "--datastore-path", help="The ESXi path to save the VM")
+    parser.add_argument("-i", "--esxi-network", help="vSphere network assigned to VM \
+                                                      that allows communication with local \
+                                                      builder")
     args = parser.parse_args()
 
-        # Set install variables
+    # Set install variables
     user = getpass.getuser()
     if user == "root" and os.getenv("SUDO_USER") != "root":
         print bcolors.FAIL, "ERROR: DO NOT RUN THIS SCRIPT WITH SUDO", bcolors.ENDC
@@ -113,6 +156,22 @@ def main():
         vmName = args.vmname
     else:
         vmName = ""
+
+    if hyper == "esxi":
+        if not args.esxi_user or not args.esxi_host or not args.esxi_network or not args.datastore_path:
+            parser.error('esxi-host, datastore-path and esxi-network are all \
+                         required when using the esxi hypervisor')
+        try:
+            print "Parsing arguments for ESXi installation:"
+            print " - Host:%s\n - Datastore Path:%s\n - VM Network:%s" % (args.esxi_host, args.datastore_path, args.esxi_network)
+            esxi = dict()
+            esxi["passwd"] = getpass.getpass("Enter ESXi host password:")
+            esxi["user"] = args.esxi_user
+            esxi["host"] = args.esxi_host
+            esxi["datastore"] = args.datastore_path
+            esxi["network"] = args.esxi_network
+        except:
+            raise Exception("Unable to get ESXi password from user")
 
     # Get host machine information
     hostOS = getHostOS()
@@ -156,11 +215,14 @@ def main():
                 exit(0)
 
     elif hyper == "esxi":
-        vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd)
+        vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd,
+                          esxi_info=esxi)
         if vmName:
             print "Successfully created VM %s!" % vmName
             exit(0)
 
-
 if __name__ == "__main__":
-   main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print "Exiting script..."

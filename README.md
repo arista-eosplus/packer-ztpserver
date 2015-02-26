@@ -19,6 +19,7 @@ You can also use Packer to automate the setup of [vEOS nodes](https://github.com
   * VirtualBox
   * VMware Fusion
   * VMware Workstation
+  * VMware [ESXi](#how-the-esxi-builder-works)
 * **VM Remote Operating Systems**
   * Fedora 20
   * Ubuntu 12.04
@@ -46,16 +47,30 @@ the default networks.
 ####Script Arguments
 <pre>
 arista:packer-ztpserver arista$ ./create-ztpserver.py -h
-usage: create-ztpserver.py [-h] -H {vmware,virtualbox} -o {fedora,ubuntu,eos}
-[-n VMNAME]
+usage: create-ztpserver.py [-h] -H {vmware,esxi,virtualbox} -o
+                           {fedora,ubuntu,eos} [-n VMNAME] [-u ESXI_USER]
+                           [-e ESXI_HOST] [-p DATASTORE_PATH]
+                           [-i ESXI_NETWORK]
 
 Automatically install the ZTPServer Demo
 
 optional arguments:
--h, --help            show this help message and exit
--H {vmware,virtualbox}, --hypervisor {vmware,virtualbox} Hypervisor to create VM in
--o {fedora,ubuntu,eos}, --os {fedora,ubuntu,eos} Desired OS to use for VM
--n VMNAME, --vmname VMNAME The Virtual Machine name
+  -h, --help            show this help message and exit
+  -H {vmware,esxi,virtualbox}, --hypervisor {vmware,esxi,virtualbox}
+                        Hypervisor to create VM in
+  -o {fedora,ubuntu,eos}, --os {fedora,ubuntu,eos}
+                        Desired OS to use for VM
+  -n VMNAME, --vmname VMNAME
+                        The Virtual Machine name
+  -u ESXI_USER, --esxi-user ESXI_USER
+                        The ESXi username
+  -e ESXI_HOST, --esxi-host ESXI_HOST
+                        The IP or hostname of the ESXi host
+  -p DATASTORE_PATH, --datastore-path DATASTORE_PATH
+                        The ESXi path to save the VM
+  -i ESXI_NETWORK, --esxi-network ESXI_NETWORK
+                        vSphere network assigned to VM that allows
+                        communication with local builder
 </pre>
 
 1. Retrieve the ZTPServer Packer files [here](https://github.com/arista-eosplus/packer-ztpserver/archive/master.zip) or run from a shell on your local machine.
@@ -161,6 +176,17 @@ Escape character is ^]
 ```
 
 ##The Minor Details
+###How the ESXi Builder Works
+Packer provides built-in support for VM creation on VMware ESXi. In this case,
+you still execute the ```create-ztpserver``` script on your local machine, but
+you provide details for Packer to upload and create the VM on your ESXi host.
+
+####Require Parameters
+* ```-u``` ESXi Username: This is the username used to log into your ESXi host
+* ```-e``` ESXi Host: The IP or resolvable hostname of your ESXi host
+* ```-p``` ESXi Datastore path: This is where the script will copy your VM to. Typically it looks something like ```Datastore-1/path/to/dir```
+* ```-i``` ESXi Network Name: Your local machine and the VM must be able to communicate.  So this must be the network that provides that network connectivity.
+
 ###Virtual Networks
 Host-only virtual networks will be created:
 * vboxnet2/vmnet2

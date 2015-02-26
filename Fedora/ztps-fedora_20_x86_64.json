@@ -1,7 +1,12 @@
 {
    "variables": {
       "ram": "2048",
-      "name": "ztps-fedora-20-x86_64"
+      "name": "ztps-fedora-20-x86_64",
+      "esxi-user": "",
+      "esxi-passwd": "",
+      "esxi-host": "",
+      "esxi-path": "",
+      "esxi-network": ""
    },
    "builders": [
       {
@@ -77,11 +82,11 @@
         "ssh_wait_timeout": "20m",
         "guest_os_type": "otherlinux-64",
         "vm_name":"{{user `name`}}",
-        "remote_host":"10.68.49.202",
-        "remote_datastore":"BS2-datastore1/ztpserver-source",
+        "remote_host":"{{user `esxi-host`}}",
+        "remote_datastore":"{{user `esxi-path`}}",
         "remote_type":"esx5",
-        "remote_username":"root",
-        "remote_password":"eosplus",
+        "remote_username":"{{user `esxi-user`}}",
+        "remote_password":"{{user `esxi-passwd`}}",
         "vmx_data": {
           "memsize": "{{user `ram`}}",
           "numvcpus": "1",
@@ -90,7 +95,7 @@
           "ethernet0.startConnected": "TRUE",
           "ethernet0.connectiontype" : "custom",
           "ethernet0.virtualDev" : "e1000",
-          "ethernet0.networkName" : "EOS+_vlan400_1G",
+          "ethernet0.networkName" : "{{user `esxi-network`}}",
           "ethernet0.linkstatepropagation.enable" : "TRUE",
           "ethernet0.present" : "TRUE",
           "ethernet0.pcislotnumber" : "32",
