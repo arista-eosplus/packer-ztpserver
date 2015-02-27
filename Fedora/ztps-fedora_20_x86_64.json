@@ -67,7 +67,7 @@
           "<enter>"
         ],
         "boot_wait": "10s",
-        "disk_size": 15000,
+        "disk_size": 7000,
         "disk_type_id": "thin",
         "output_directory":"{{user `name`}}-vmware",
         "type": "vmware-iso",

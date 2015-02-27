@@ -82,19 +82,40 @@ optional arguments:
 
   **NIX-based Terminal**
   <pre>
-  python ./create-ztpserver.py -H [vmware|virtualbox] -o [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
+  python ./create-ztpserver.py -H [vmware|virtualbox|esxi] -o [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
   </pre>
-  > **IMPORTANT:** You may have to enter your sudo password so keep an eye on it.
+  > **IMPORTANT:** You will have to enter your sudo password so keep an eye on it.
 
   **Windows-based Command-Prompt**
   > **IMPORTANT:** Open the command prompt as an Administrator so you don't have to authorize every command
 
   <pre>
-  C:\> C:\Python27\python.exe ./create-ztpserver.py -H [vmware|virtualbox] -o  [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
+  C:\> C:\Python27\python.exe ./create-ztpserver.py -H [vmware|virtualbox|esxi] -o  [fedora|ubuntu|eos] --vmname VMNAME-PREFIX
   </pre>
   > **Note:** Your Python executable might be somewhere else, or part of your
     %PATH% in which case you could just type ```python```, but this is just
     meant to be a general idea.
+
+    **Examples:**
+    Create an Ubuntu ZTPServer VM for Fusion with VM name prefix "my-demo"
+    <pre>
+    create-ztpserver.py -H vmware -o ubuntu --vmname my-demo
+    </pre>
+
+    Create a Fedora ZTPServer VM for Workstation with VM name prefix "my-demo"
+    <pre>
+    create-ztpserver.py -H vmware -o fedora --vmname my-demo
+    </pre>
+
+    Create a ZTPServer VM that runs on an EOS device
+    <pre>
+    create-ztpserver.py -H vmware -o eos
+    </pre>
+
+    Create a Fedora ZTPServer VM that runs on an ESXi host
+    <pre>
+    create-ztpserver.py -H esxi -o fedora -u esxiUser -e esxi-host.example.com -p Datastore1/ztpservers -i net_vlan100
+    </pre>
 
 3. When the script exits successfully you will have a full-featured ZTPServer.  We've gone ahead and placed some demo files from [GitHub](https://github.com/arista-eosplus/ztpserver-demo) to make life a little easier. All of the interesting files are in ```/usr/share/ztpserver``` and ```/etc/ztpserver/```.
 4. Log into the server with user ```ztpsadmin``` and password ```eosplus```. Simply type the following to start the standalone ztpserver:
