@@ -96,26 +96,24 @@ optional arguments:
     %PATH% in which case you could just type ```python```, but this is just
     meant to be a general idea.
 
-    **Examples:**
-    Create an Ubuntu ZTPServer VM for Fusion with VM name prefix "my-demo"
-    <pre>
-    create-ztpserver.py -H vmware -o ubuntu --vmname my-demo
-    </pre>
+  **Examples:**
 
-    Create a Fedora ZTPServer VM for Workstation with VM name prefix "my-demo"
-    <pre>
-    create-ztpserver.py -H vmware -o fedora --vmname my-demo
-    </pre>
-
-    Create a ZTPServer VM that runs on an EOS device
-    <pre>
-    create-ztpserver.py -H vmware -o eos
-    </pre>
-
-    Create a Fedora ZTPServer VM that runs on an ESXi host
-    <pre>
-    create-ztpserver.py -H esxi -o fedora -u esxiUser -e esxi-host.example.com -p Datastore1/ztpservers -i net_vlan100
-    </pre>
+  Create an Ubuntu ZTPServer VM for Fusion with VM name prefix "my-demo"
+  <pre>
+  create-ztpserver.py -H vmware -o ubuntu --vmname my-demo
+  </pre>
+  Create a Fedora ZTPServer VM for Workstation with VM name prefix "my-demo"
+  <pre>
+  create-ztpserver.py -H vmware -o fedora --vmname my-demo
+  </pre>
+  Create a ZTPServer VM that runs on an EOS device
+  <pre>
+  create-ztpserver.py -H vmware -o eos
+  </pre>
+  Create a Fedora ZTPServer VM that runs on an ESXi host
+  <pre>
+  create-ztpserver.py -H esxi -o fedora -u esxiUser -e esxi-host.example.com -p Datastore1/ztpservers -i net_vlan100
+  </pre>
 
 3. When the script exits successfully you will have a full-featured ZTPServer.  We've gone ahead and placed some demo files from [GitHub](https://github.com/arista-eosplus/ztpserver-demo) to make life a little easier. All of the interesting files are in ```/usr/share/ztpserver``` and ```/etc/ztpserver/```.
 4. Log into the server with user ```ztpsadmin``` and password ```eosplus```. Simply type the following to start the standalone ztpserver:
