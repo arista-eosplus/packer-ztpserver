@@ -1,6 +1,7 @@
 {
   "variables": {
     "ram": "1024",
+    "disk-size": "4000",
     "name": "ztps-fedora-20-i386-eos",
     "esxi-user": "",
     "esxi-passwd": "",
@@ -21,7 +22,7 @@
         "<enter>"
       ],
       "boot_wait": "10s",
-      "disk_size": 4000,
+      "disk_size": "{{user `disk-size`}}",
       "disk_type_id": "0",
       "output_directory":"{{user `name`}}-vmware",
       "type": "vmware-iso",
@@ -60,7 +61,7 @@
         "<enter>"
       ],
       "boot_wait": "10s",
-      "disk_size": 4000,
+      "disk_size": "{{user `disk-size`}}",
       "disk_type_id": "thin",
       "output_directory":"{{user `name`}}-vmware",
       "type": "vmware-iso",
@@ -108,7 +109,7 @@
         "<enter>"
       ],
       "boot_wait": "10s",
-      "disk_size": 4000,
+      "disk_size": "{{user `disk-size`}}",
       "output_directory":"{{user `name`}}-vbox",
       "type": "virtualbox-iso",
       "name": "virtualbox-iso-eos",

@@ -1,6 +1,7 @@
 {
    "variables": {
       "ram": "2048",
+      "disk-size": "7000",
       "name": "ztps-fedora-20-x86_64",
       "esxi-user": "",
       "esxi-passwd": "",
@@ -22,7 +23,7 @@
            "<enter>"
           ],
           "boot_wait": "10s",
-          "disk_size": 7000,
+          "disk_size": "{{user `disk-size`}}",
           "output_directory":"{{user `name`}}-vmware",
           "type": "vmware-iso",
           "headless":"False",
@@ -67,7 +68,7 @@
           "<enter>"
         ],
         "boot_wait": "10s",
-        "disk_size": 7000,
+        "disk_size": "{{user `disk-size`}}",
         "disk_type_id": "thin",
         "output_directory":"{{user `name`}}-vmware",
         "type": "vmware-iso",
@@ -123,7 +124,7 @@
            "<enter>"
           ],
           "boot_wait": "10s",
-          "disk_size": 7000,
+          "disk_size": "{{user `disk-size`}}",
           "output_directory":"{{user `name`}}-vbox",
           "type": "virtualbox-iso",
           "headless":"False",
@@ -196,7 +197,7 @@
            "<enter>"
           ],
           "boot_wait": "10s",
-          "disk_size": 7000,
+          "disk_size": "{{user `disk-size`}}",
           "output_directory":"{{user `name`}}-vbox",
           "type": "virtualbox-iso",
           "name": "virtualbox-windows-iso",

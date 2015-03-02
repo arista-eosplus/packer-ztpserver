@@ -48,8 +48,8 @@ the default networks.
 <pre>
 arista:packer-ztpserver arista$ ./create-ztpserver.py -h
 usage: create-ztpserver.py [-h] -H {vmware,esxi,virtualbox} -o
-                           {fedora,ubuntu,eos} [-n VMNAME] [-u ESXI_USER]
-                           [-e ESXI_HOST] [-p DATASTORE_PATH]
+                           {fedora,ubuntu,eos} [-n VMNAME] [-d DISK_SIZE]
+                           [-u ESXI_USER] [-e ESXI_HOST] [-p DATASTORE_PATH]
                            [-i ESXI_NETWORK]
 
 Automatically install the ZTPServer Demo
@@ -62,6 +62,8 @@ optional arguments:
                         Desired OS to use for VM
   -n VMNAME, --vmname VMNAME
                         The Virtual Machine name
+  -d DISK_SIZE, --disk-size DISK_SIZE
+                        VM Disk size in MB
   -u ESXI_USER, --esxi-user ESXI_USER
                         The ESXi username
   -e ESXI_HOST, --esxi-host ESXI_HOST
@@ -105,6 +107,10 @@ optional arguments:
   Create a Fedora ZTPServer VM for Workstation with VM name prefix "my-demo"
   <pre>
   create-ztpserver.py -H vmware -o fedora --vmname my-demo
+  </pre>
+  Create a Fedora ZTPServer VM for Fusion with 10GB disk
+  <pre>
+  create-ztpserver.py -H vmware -o fedora -d 10000
   </pre>
   Create a ZTPServer VM that runs on an EOS device
   <pre>

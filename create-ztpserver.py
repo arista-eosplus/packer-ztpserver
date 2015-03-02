@@ -13,7 +13,7 @@ sys.path.append(newPath)
 from eosplusvnets import *
 
 
-def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd, **kwargs):
+def createVM(hyper, hostOS, vmOS, vmName, vmSize, user, packerCmd, **kwargs):
 
     d = datetime.datetime.now()
     time = d.strftime("%Y%m%d_%H%M%S")
@@ -46,47 +46,41 @@ def createVM(hyper, hostOS, vmOS, vmName, user, packerCmd, **kwargs):
     nameVar = "name=%s" % vmName
 
     try:
+        opts = "-var name='%s' -var disk-size='%s'" % (vmName, vmSize)
+
         if vmOS == "fedora":
             wkd = os.path.join(os.getcwd(), "Fedora")
             builder_file = "ztps-fedora_20_x86_64.json"
             if hyper == "esxi":
                 esxi = kwargs["esxi_info"]
-                opts = "-var name='%s' -var esxi-user='%s' -var esxi-passwd='%s' \
-                        -var esxi-host='%s' -var esxi-path='%s' \
-                        -var esxi-network='%s'" % (vmName, esxi['user'],
-                                                   esxi['passwd'], esxi['host'],
-                                                   esxi['datastore'],
-                                                   esxi['network'])
-            else:
-                opts = "-var name='%s'" % vmName
-
+                opts += "-var esxi-user='%s' -var esxi-passwd='%s' \
+                         -var esxi-host='%s' -var esxi-path='%s' \
+                         -var esxi-network='%s'" % (vmName, esxi['user'],
+                                                    esxi['passwd'], esxi['host'],
+                                                    esxi['datastore'],
+                                                    esxi['network'])
         elif vmOS == "eos":
             wkd = os.path.join(os.getcwd(), "Fedora")
             builder_file = "ztps-fedora_20_i386.json"
             if hyper == "esxi":
                 esxi = kwargs["esxi_info"]
-                opts = "-var name='%s' -var esxi-user='%s' -var esxi-passwd='%s' \
-                        -var esxi-host='%s' -var esxi-path='%s' \
-                        -var esxi-network='%s'" % (vmName, esxi['user'],
-                                                   esxi['passwd'], esxi['host'],
-                                                   esxi['datastore'],
-                                                   esxi['network'])
-            else:
-                opts = "-var name='%s'" % vmName
-
+                opts += "-var esxi-user='%s' -var esxi-passwd='%s' \
+                         -var esxi-host='%s' -var esxi-path='%s' \
+                         -var esxi-network='%s'" % (vmName, esxi['user'],
+                                                    esxi['passwd'], esxi['host'],
+                                                    esxi['datastore'],
+                                                    esxi['network'])
         elif vmOS == "ubuntu":
             wkd = os.path.join(os.getcwd(), "Ubuntu")
             builder_file = "ztps-ubuntu-12.04.4_amd64.json"
             if hyper == "esxi":
                 esxi = kwargs["esxi_info"]
-                opts = "-var name='%s' -var esxi-user='%s' -var esxi-passwd='%s' \
-                        -var esxi-host='%s' -var esxi-path='%s' \
-                        -var esxi-network='%s'" % (vmName, esxi['user'],
-                                                   esxi['passwd'], esxi['host'],
-                                                   esxi['datastore'],
-                                                   esxi['network'])
-            else:
-                opts = "-var name='%s'" % vmName
+                opts += "-var esxi-user='%s' -var esxi-passwd='%s' \
+                         -var esxi-host='%s' -var esxi-path='%s' \
+                         -var esxi-network='%s'" % (vmName, esxi['user'],
+                                                    esxi['passwd'], esxi['host'],
+                                                    esxi['datastore'],
+                                                    esxi['network'])
 
         rc = subprocess.call("%s build %s %s %s" % (packerCmd, build, opts, builder_file),
                              shell=True, cwd=wkd)
@@ -136,6 +130,7 @@ def main():
     parser.add_argument("-H", "--hypervisor", required=True, choices=hypervisors, help="Hypervisor to create VM in")
     parser.add_argument("-o", "--os", required=True, choices=oses, help="Desired OS to use for VM")
     parser.add_argument("-n", "--vmname", help="The Virtual Machine name")
+    parser.add_argument("-d", "--disk-size", help="VM Disk size in MB")
     parser.add_argument("-u", "--esxi-user", help="The ESXi username")
     parser.add_argument("-e", "--esxi-host", help="The IP or hostname of the ESXi host")
     parser.add_argument("-p", "--datastore-path", help="The ESXi path to save the VM")
@@ -156,6 +151,15 @@ def main():
         vmName = args.vmname
     else:
         vmName = ""
+
+    if args.disk_size:
+        vmSize = args.disk_size
+        if vmSize < 3000:
+            parser.error('3000 MB is minimum disk size for VM')
+        elif vmOS == "eos":
+            vmSize = 4000
+        else:
+            vmSize = 7000
 
     if hyper == "esxi":
         if not args.esxi_user or not args.esxi_host or not args.esxi_network or not args.datastore_path:
@@ -200,7 +204,8 @@ def main():
     if hyper == "virtualbox":
         if createVBoxNets(hostOS, hostArch, libDir):
             # Create the Virtual Machine
-            vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd)
+            vmName = createVM(hyper, hostOS, vmOS, vmName, vmSize, user,
+                              packerCmd)
             if vmName:
                 if registerVbox(hyper, libDir, vmName, vmOS):
                     print "Successfully created VM %s!" % vmName
@@ -209,13 +214,14 @@ def main():
     elif hyper == "vmware":
         if createVmNets(hostOS, hostArch, libDir):
             # Create the Virtual Machine
-            vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd)
+            vmName = createVM(hyper, hostOS, vmOS, vmName, vmSize,
+                              user, packerCmd)
             if vmName:
                 print "Successfully created VM %s!" % vmName
                 exit(0)
 
     elif hyper == "esxi":
-        vmName = createVM(hyper, hostOS, vmOS, vmName, user, packerCmd,
+        vmName = createVM(hyper, hostOS, vmOS, vmName, vmSize, user, packerCmd,
                           esxi_info=esxi)
         if vmName:
             print "Successfully created VM %s!" % vmName
