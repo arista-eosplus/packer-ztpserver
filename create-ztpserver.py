@@ -130,7 +130,7 @@ def main():
     parser.add_argument("-H", "--hypervisor", required=True, choices=hypervisors, help="Hypervisor to create VM in")
     parser.add_argument("-o", "--os", required=True, choices=oses, help="Desired OS to use for VM")
     parser.add_argument("-n", "--vmname", help="The Virtual Machine name")
-    parser.add_argument("-d", "--disk-size", help="VM Disk size in MB")
+    parser.add_argument("-d", "--disk-size", help="VM Disk size in MB", default=7000)
     parser.add_argument("-u", "--esxi-user", help="The ESXi username")
     parser.add_argument("-e", "--esxi-host", help="The IP or hostname of the ESXi host")
     parser.add_argument("-p", "--datastore-path", help="The ESXi path to save the VM")
@@ -152,14 +152,13 @@ def main():
     else:
         vmName = ""
 
-    if args.disk_size:
-        vmSize = args.disk_size
-        if vmSize < 3000:
-            parser.error('3000 MB is minimum disk size for VM')
-        elif vmOS == "eos":
-            vmSize = 4000
-        else:
-            vmSize = 7000
+    vmSize = args.disk_size
+    if vmSize < 3000:
+        parser.error('3000 MB is minimum disk size for VM')
+
+    if vmOS == "eos":
+        vmSize = 4000
+        print "Changing disk size to 4000MB for eos"
 
     if hyper == "esxi":
         if not args.esxi_user or not args.esxi_host or not args.esxi_network or not args.datastore_path:
