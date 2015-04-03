@@ -192,7 +192,7 @@ cp -R ./files /usr/share/ztpserver/
 cp -R ./nodes /usr/share/ztpserver/
 cp -R ./resources /usr/share/ztpserver/
 cp -R ./neighbordb /usr/share/ztpserver/
-cp ztpserver.conf /etc/ztpserver/ztpserver.conf
+cp ztpserver-eos.conf /etc/ztpserver/ztpserver.conf
 cp bootstrap.conf /usr/share/ztpserver/bootstrap/bootstrap.conf
 
 
