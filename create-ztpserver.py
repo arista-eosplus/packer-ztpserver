@@ -46,7 +46,7 @@ def createVM(hyper, hostOS, vmOS, vmName, vmSize, user, packerCmd, **kwargs):
     nameVar = "name=%s" % vmName
 
     try:
-        opts = "-var name='%s' -var disk-size='%s'" % (vmName, vmSize)
+        opts = "-var name='%s' -var disk-size=%s" % (vmName, vmSize)
 
         if vmOS == "fedora":
             wkd = os.path.join(os.getcwd(), "Fedora")
