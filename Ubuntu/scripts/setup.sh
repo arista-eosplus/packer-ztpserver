@@ -1,6 +1,10 @@
 #!/bin/sh -x
 
 # grab any updates and cleanup
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+rm -rf /var/lib/apt/lists/partial/*
+apt-get clean
 apt-get -y update
 apt-get -y upgrade
 
