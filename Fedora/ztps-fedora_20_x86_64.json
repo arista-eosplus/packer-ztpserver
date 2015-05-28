@@ -234,7 +234,19 @@
                    "modifyvm",
                    "{{.Name}}",
                    "--hwvirtex",
-                   "off"
+                   "on"
+              ],
+              [
+                   "modifyvm",
+                   "{{.Name}}",
+                   "--vtxux",
+                   "on"
+              ],
+              [
+                   "modifyvm",
+                   "{{.Name}}",
+                   "--vtxvpid",
+                   "on"
               ],
               [
                    "modifyvm",

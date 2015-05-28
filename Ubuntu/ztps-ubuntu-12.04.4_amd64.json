@@ -293,6 +293,24 @@
                   "1"
             ],
             [
+                 "modifyvm",
+                 "{{.Name}}",
+                 "--hwvirtex",
+                 "on"
+            ],
+            [
+                 "modifyvm",
+                 "{{.Name}}",
+                 "--vtxux",
+                 "on"
+            ],
+            [
+                 "modifyvm",
+                 "{{.Name}}",
+                 "--vtxvpid",
+                 "on"
+            ],
+            [
                   "modifyvm",
                   "{{.Name}}",
                   "--nic1",
