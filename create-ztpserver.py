@@ -53,37 +53,42 @@ def createVM(hyper, hostOS, vmOS, vmName, vmSize, user, packerCmd, **kwargs):
             builder_file = "ztps-fedora_20_x86_64.json"
             if hyper == "esxi":
                 esxi = kwargs["esxi_info"]
-                opts += "-var esxi-user='%s' -var esxi-passwd='%s' \
-                         -var esxi-host='%s' -var esxi-path='%s' \
-                         -var esxi-network='%s'" % (vmName, esxi['user'],
-                                                    esxi['passwd'], esxi['host'],
-                                                    esxi['datastore'],
-                                                    esxi['network'])
+                opts += (" -var esxi-user='%s' -var esxi-passwd='%s' "
+                         "-var esxi-host='%s' -var esxi-path='%s' "
+                         "-var esxi-network='%s'") % (esxi['user'],
+                                                      esxi['passwd'],
+                                                      esxi['host'],
+                                                      esxi['datastore'],
+                                                      esxi['network'])
         elif vmOS == "eos":
             wkd = os.path.join(os.getcwd(), "Fedora")
             builder_file = "ztps-fedora_20_i386.json"
             if hyper == "esxi":
                 esxi = kwargs["esxi_info"]
-                opts += "-var esxi-user='%s' -var esxi-passwd='%s' \
-                         -var esxi-host='%s' -var esxi-path='%s' \
-                         -var esxi-network='%s'" % (vmName, esxi['user'],
-                                                    esxi['passwd'], esxi['host'],
-                                                    esxi['datastore'],
-                                                    esxi['network'])
+                opts += (" -var esxi-user='%s' -var esxi-passwd='%s' "
+                         "-var esxi-host='%s' -var esxi-path='%s' "
+                         "-var esxi-network='%s'") % (esxi['user'],
+                                                      esxi['passwd'],
+                                                      esxi['host'],
+                                                      esxi['datastore'],
+                                                      esxi['network'])
         elif vmOS == "ubuntu":
             wkd = os.path.join(os.getcwd(), "Ubuntu")
             builder_file = "ztps-ubuntu-12.04.4_amd64.json"
             if hyper == "esxi":
                 esxi = kwargs["esxi_info"]
-                opts += "-var esxi-user='%s' -var esxi-passwd='%s' \
-                         -var esxi-host='%s' -var esxi-path='%s' \
-                         -var esxi-network='%s'" % (vmName, esxi['user'],
-                                                    esxi['passwd'], esxi['host'],
-                                                    esxi['datastore'],
-                                                    esxi['network'])
+                opts += (" -var esxi-user='%s' -var esxi-passwd='%s' "
+                         "-var esxi-host='%s' -var esxi-path='%s' "
+                         "-var esxi-network='%s'") % (esxi['user'],
+                                                      esxi['passwd'],
+                                                      esxi['host'],
+                                                      esxi['datastore'],
+                                                      esxi['network'])
 
-        rc = subprocess.call("%s build %s %s %s" % (packerCmd, build, opts, builder_file),
-                             shell=True, cwd=wkd)
+        build_cmd = "%s build %s %s %s" % (packerCmd, build, opts, builder_file)
+        print build_cmd
+
+        rc = subprocess.call(build_cmd, shell=True, cwd=wkd)
 
         print "Return code:%s" % rc
     except OSError as e:
