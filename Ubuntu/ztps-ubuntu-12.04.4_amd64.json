@@ -1,230 +1,62 @@
 {
-    "variables": {
-         "ram": "2048",
-         "disk-size": "7000",
-         "name": "ztps-ubuntu-12.04_amd64",
-         "esxi-user": "",
-         "esxi-passwd": "",
-         "esxi-host": "",
-         "esxi-path": "",
-         "esxi-network": ""
-    },
-    "builders": [
-      {
-        "boot_command": [
-          "<esc><wait>",
-          "<esc><wait>",
-          "<enter><wait>",
-          "/install/vmlinuz<wait>",
-          " auto<wait>",
-          " console-setup/ask_detect=false<wait>",
-          " console-setup/layoutcode=us<wait>",
-          " console-setup/modelcode=pc105<wait>",
-          " debconf/frontend=noninteractive<wait>",
-          " debian-installer=en_US<wait>",
-          " fb=false<wait>",
-          " initrd=/install/initrd.gz<wait>",
-          " kbd-chooser/method=us<wait>",
-          " keyboard-configuration/layout=USA<wait>",
-          " keyboard-configuration/variant=USA<wait>",
-          " locale=en_US<wait>",
-          " netcfg/choose_interface=eth0<wait>",
-          " netcfg/get_hostname=ztps<wait>",
-          " netcfg/get_domain=ztps-test.com<wait>",
-          " noapic<wait>",
-          " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
-          " -- <wait>",
-          "<enter><wait>"
-        ],
-        "boot_wait": "10s",
-        "disk_size": "{{user `disk-size`}}",
-        "output_directory":"{{user `name`}}-vmware",
-        "type": "vmware-iso",
-        "headless":"False",
-        "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
-        "iso_checksum_type": "sha256",
-        "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
-        "ssh_username": "root",
-        "ssh_password":"eosplus",
-        "ssh_port":"22",
-        "ssh_wait_timeout": "20m",
-        "guest_os_type": "linux",
-        "vm_name":"{{user `name`}}",
-        "vmx_data": {
-          "memsize": "{{user `ram`}}",
-          "numvcpus": "1",
-          "cpuid.coresPerSocket": "1",
-          "ethernet0.present" : "TRUE",
-          "ethernet0.virtualdev" :  "e1000",
-          "ethernet0.connectionType" : "nat",
-          "ethernet0.startConnected" : "TRUE",
-          "ethernet0.pcislotnumber" : "32",
-          "ethernet1.pcislotnumber" : "33",
-          "ethernet1.virtualdev" :  "e1000",
-          "ethernet1.present" : "TRUE",
-          "ethernet1.startConnected" : "TRUE",
-          "ethernet1.connectionType" : "custom",
-          "ethernet1.vnet":"vmnet2"
-        },
-        "shutdown_command": "/sbin/shutdown -h now",
-        "http_directory":"http/"
-     },
-     {
-       "boot_command": [
-         "<esc><wait>",
-         "<esc><wait>",
-         "<enter><wait>",
-         "/install/vmlinuz<wait>",
-         " auto<wait>",
-         " console-setup/ask_detect=false<wait>",
-         " console-setup/layoutcode=us<wait>",
-         " console-setup/modelcode=pc105<wait>",
-         " debconf/frontend=noninteractive<wait>",
-         " debian-installer=en_US<wait>",
-         " fb=false<wait>",
-         " initrd=/install/initrd.gz<wait>",
-         " kbd-chooser/method=us<wait>",
-         " keyboard-configuration/layout=USA<wait>",
-         " keyboard-configuration/variant=USA<wait>",
-         " locale=en_US<wait>",
-         " netcfg/choose_interface=eth0<wait>",
-         " netcfg/get_hostname=ztps<wait>",
-         " netcfg/get_domain=ztps-test.com<wait>",
-         " noapic<wait>",
-         " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
-         " -- <wait>",
-         "<enter><wait>"
-       ],
-       "boot_wait": "10s",
-       "disk_size": "{{user `disk-size`}}",
-       "disk_type_id": "thin",
-       "output_directory":"{{user `name`}}-vmware",
-       "type": "vmware-iso",
-       "name": "esxi-iso",
-       "headless":"False",
-       "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
-       "iso_checksum_type": "sha256",
-       "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
-       "ssh_username": "root",
-       "ssh_password":"eosplus",
-       "ssh_port":"22",
-       "ssh_wait_timeout": "20m",
-       "guest_os_type": "ubuntu-64",
-       "vm_name":"{{user `name`}}",
-       "remote_host":"{{user `esxi-host`}}",
-       "remote_datastore":"{{user `esxi-path`}}",
-       "remote_type":"esx5",
-       "remote_username":"{{user `esxi-user`}}",
-       "remote_password":"{{user `esxi-passwd`}}",
-       "vmx_data": {
-         "memsize": "{{user `ram`}}",
-         "numvcpus": "1",
-         "cpuid.coresPerSocket": "1",
-         "RemoteDisplay.vnc.enabled" : "TRUE",
-         "ethernet0.startConnected": "TRUE",
-         "ethernet0.connectiontype" : "custom",
-         "ethernet0.virtualDev" : "e1000",
-         "ethernet0.networkName" : "{{user `esxi-network`}}",
-         "ethernet0.linkstatepropagation.enable" : "TRUE",
-         "ethernet0.present" : "TRUE",
-         "ethernet0.pcislotnumber" : "32",
-         "ethernet1.pcislotnumber" : "33",
-         "ethernet1.startConnected": "FALSE",
-         "ethernet1.virtualDev" : "e1000",
-         "ethernet1.present" : "TRUE"
-       },
-       "vmx_data_post": {
-         "ethernet1.startConnected": "TRUE"
-       },
-       "shutdown_command": "/sbin/shutdown -h now",
-       "http_directory":"http/"
-     },
-     {
-       "boot_command": [
-         "<esc><wait>",
-         "<esc><wait>",
-         "<enter><wait>",
-         "/install/vmlinuz<wait>",
-         " auto<wait>",
-         " console-setup/ask_detect=false<wait>",
-         " console-setup/layoutcode=us<wait>",
-         " console-setup/modelcode=pc105<wait>",
-         " debconf/frontend=noninteractive<wait>",
-         " debian-installer=en_US<wait>",
-         " fb=false<wait>",
-         " initrd=/install/initrd.gz<wait>",
-         " kbd-chooser/method=us<wait>",
-         " keyboard-configuration/layout=USA<wait>",
-         " keyboard-configuration/variant=USA<wait>",
-         " locale=en_US<wait>",
-         " netcfg/choose_interface=eth0<wait>",
-         " netcfg/get_hostname=ztps<wait>",
-         " netcfg/get_domain=ztps-test.com<wait>",
-         " noapic<wait>",
-         " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
-         " -- <wait>",
-         "<enter><wait>"
-       ],
-       "boot_wait": "10s",
-       "disk_size": "{{user `disk-size`}}",
-       "output_directory":"{{user `name`}}-vbox",
-       "type": "virtualbox-iso",
-       "headless":"False",
-       "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
-       "iso_checksum_type": "sha256",
-       "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
-       "ssh_username": "root",
-       "ssh_password":"eosplus",
-       "ssh_port":"22",
-       "ssh_wait_timeout": "20m",
-       "guest_os_type": "Ubuntu_64",
-       "vm_name":"{{user `name`}}",
-       "vboxmanage": [
-             [
-                 "modifyvm",
-                 "{{.Name}}",
-                 "--memory",
-                 "{{user `ram`}}"
-             ],
-             [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--cpus",
-                 "1"
-             ],
-             [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--rtcuseutc",
-                  "on"
-             ],
-             [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--bioslogodisplaytime",
-                   "1"
-             ],
-             [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--nic1",
-                   "nat"
-             ],
-             [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--nic2",
-                   "hostonly"
-             ],
-             [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--hostonlyadapter2",
-                   "vboxnet2"
-             ]
-            ],
-       "shutdown_command": "/sbin/shutdown -h now",
-       "http_directory":"http/"
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US<wait>",
+        " netcfg/choose_interface=eth0<wait>",
+        " netcfg/get_hostname=ztps<wait>",
+        " netcfg/get_domain=ztps-test.com<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk-size`}}",
+      "guest_os_type": "linux",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
+      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
+      "output_directory": "{{user `name`}}-vmware",
+      "shutdown_command": "/sbin/shutdown -h now",
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "vmware-iso",
+      "vm_name": "{{user `name`}}",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "ethernet0.connectionType": "nat",
+        "ethernet0.pcislotnumber": "32",
+        "ethernet0.present": "TRUE",
+        "ethernet0.startConnected": "TRUE",
+        "ethernet0.virtualdev": "e1000",
+        "ethernet1.connectionType": "custom",
+        "ethernet1.pcislotnumber": "33",
+        "ethernet1.present": "TRUE",
+        "ethernet1.startConnected": "TRUE",
+        "ethernet1.virtualdev": "e1000",
+        "ethernet1.vnet": "vmnet2",
+        "memsize": "{{user `ram`}}",
+        "numvcpus": "1"
+      }
     },
     {
       "boot_command": [
@@ -254,101 +86,266 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk-size`}}",
-      "output_directory":"{{user `name`}}-vbox",
-      "type": "virtualbox-iso",
-      "name": "virtualbox-windows-iso",
-      "headless":"False",
-      "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
-      "iso_checksum_type": "sha256",
+      "disk_type_id": "thin",
+      "guest_os_type": "ubuntu-64",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
       "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
-      "ssh_username": "root",
-      "ssh_password":"eosplus",
-      "ssh_port":"22",
-      "ssh_wait_timeout": "20m",
-      "guest_os_type": "Ubuntu_64",
-      "vm_name":"{{user `name`}}",
-      "vboxmanage": [
-            [
-                "modifyvm",
-                "{{.Name}}",
-                "--memory",
-                "{{user `ram`}}"
-            ],
-            [
-                 "modifyvm",
-                 "{{.Name}}",
-                 "--cpus",
-                "1"
-            ],
-            [
-                 "modifyvm",
-                 "{{.Name}}",
-                 "--rtcuseutc",
-                 "on"
-            ],
-            [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--bioslogodisplaytime",
-                  "1"
-            ],
-            [
-                 "modifyvm",
-                 "{{.Name}}",
-                 "--hwvirtex",
-                 "on"
-            ],
-            [
-                 "modifyvm",
-                 "{{.Name}}",
-                 "--vtxux",
-                 "on"
-            ],
-            [
-                 "modifyvm",
-                 "{{.Name}}",
-                 "--vtxvpid",
-                 "on"
-            ],
-            [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--nic1",
-                  "nat"
-            ],
-            [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--nic2",
-                  "hostonly"
-            ],
-            [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--hostonlyadapter2",
-                  "VirtualBox Host-Only Ethernet Adapter #2"
-            ]
-           ],
+      "name": "esxi-iso",
+      "output_directory": "{{user `name`}}-vmware",
+      "remote_datastore": "{{user `esxi-path`}}",
+      "remote_host": "{{user `esxi-host`}}",
+      "remote_password": "{{user `esxi-passwd`}}",
+      "remote_type": "esx5",
+      "remote_username": "{{user `esxi-user`}}",
       "shutdown_command": "/sbin/shutdown -h now",
-      "http_directory":"http/"
-   }
-	],
-	"provisioners": [
-	  {
-	    "source": "conf",
-	    "destination": "/tmp/packer",
-	    "type":"file"
-	  },
-    {
-      "source": "files",
-      "destination": "/tmp/packer",
-      "type":"file"
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "vmware-iso",
+      "vm_name": "{{user `name`}}",
+      "vmx_data": {
+        "RemoteDisplay.vnc.enabled": "TRUE",
+        "cpuid.coresPerSocket": "1",
+        "ethernet0.connectiontype": "custom",
+        "ethernet0.linkstatepropagation.enable": "TRUE",
+        "ethernet0.networkName": "{{user `esxi-network`}}",
+        "ethernet0.pcislotnumber": "32",
+        "ethernet0.present": "TRUE",
+        "ethernet0.startConnected": "TRUE",
+        "ethernet0.virtualDev": "e1000",
+        "ethernet1.pcislotnumber": "33",
+        "ethernet1.present": "TRUE",
+        "ethernet1.startConnected": "FALSE",
+        "ethernet1.virtualDev": "e1000",
+        "memsize": "{{user `ram`}}",
+        "numvcpus": "1"
+      },
+      "vmx_data_post": {
+        "ethernet1.startConnected": "TRUE"
+      }
     },
-	  {
-      "scripts": [
-	     "scripts/setup.sh"
-	      ],
-	    "type" : "shell"
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US<wait>",
+        " netcfg/choose_interface=eth0<wait>",
+        " netcfg/get_hostname=ztps<wait>",
+        " netcfg/get_domain=ztps-test.com<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk-size`}}",
+      "guest_os_type": "Ubuntu_64",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
+      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
+      "output_directory": "{{user `name`}}-vbox",
+      "shutdown_command": "/sbin/shutdown -h now",
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `ram`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--rtcuseutc",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--bioslogodisplaytime",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic1",
+          "nat"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic2",
+          "hostonly"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hostonlyadapter2",
+          "vboxnet2"
+        ]
+      ],
+      "vm_name": "{{user `name`}}"
+    },
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US<wait>",
+        " netcfg/choose_interface=eth0<wait>",
+        " netcfg/get_hostname=ztps<wait>",
+        " netcfg/get_domain=ztps-test.com<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk-size`}}",
+      "guest_os_type": "Ubuntu_64",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
+      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
+      "name": "virtualbox-windows-iso",
+      "output_directory": "{{user `name`}}-vbox",
+      "shutdown_command": "/sbin/shutdown -h now",
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `ram`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--rtcuseutc",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--bioslogodisplaytime",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hwvirtex",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vtxux",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vtxvpid",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic1",
+          "nat"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic2",
+          "hostonly"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hostonlyadapter2",
+          "VirtualBox Host-Only Ethernet Adapter #2"
+        ]
+      ],
+      "vm_name": "{{user `name`}}"
     }
-  ]
+  ],
+  "provisioners": [
+    {
+      "destination": "/tmp/packer",
+      "source": "conf",
+      "type": "file"
+    },
+    {
+      "destination": "/tmp/packer",
+      "source": "files",
+      "type": "file"
+    },
+    {
+      "scripts": [
+        "scripts/setup.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "disk-size": "7000",
+    "esxi-host": "",
+    "esxi-network": "",
+    "esxi-passwd": "",
+    "esxi-path": "",
+    "esxi-user": "",
+    "name": "ztps-ubuntu-12.04_amd64",
+    "ram": "2048"
+  }
 }
+
