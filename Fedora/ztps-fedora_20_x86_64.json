@@ -1,304 +1,301 @@
 {
-   "variables": {
-      "ram": "2048",
-      "disk-size": "7000",
-      "name": "ztps-fedora-20-x86_64",
-      "esxi-user": "",
-      "esxi-passwd": "",
-      "esxi-host": "",
-      "esxi-path": "",
-      "esxi-network": ""
-   },
-   "builders": [
-      {
-          "boot_command": [
-           "<esc>",
-           "<wait>",
-           "vmlinuz ",
-           "initrd=initrd.img ",
-           "biosdevname=0 net.ifnames=0 ",
-           "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
-           "rd.live.check ",
-           "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
-           "<enter>"
-          ],
-          "boot_wait": "10s",
-          "disk_size": "{{user `disk-size`}}",
-          "output_directory":"{{user `name`}}-vmware",
-          "type": "vmware-iso",
-          "headless":"False",
-          "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
-          "iso_checksum_type": "sha256",
-          "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
-          "ssh_username": "root",
-          "ssh_password":"eosplus",
-          "ssh_port":"22",
-          "ssh_wait_timeout": "20m",
-          "guest_os_type": "fedora-64",
-          "vm_name":"{{user `name`}}",
-          "vmx_data": {
-            "memsize": "{{user `ram`}}",
-            "numvcpus": "1",
-            "cpuid.coresPerSocket": "1",
-            "ethernet0.present" : "TRUE",
-            "ethernet0.virtualdev" :  "e1000",
-            "ethernet0.connectionType" : "nat",
-            "ethernet0.startConnected" : "TRUE",
-            "ethernet0.pcislotnumber" : "32",
-            "ethernet1.pcislotnumber" : "33",
-            "ethernet1.virtualdev" :  "e1000",
-            "ethernet1.present" : "TRUE",
-            "ethernet1.startConnected" : "TRUE",
-            "ethernet1.connectionType" : "custom",
-            "ethernet1.vnet" : "vmnet2"
-          },
-          "shutdown_command": "/sbin/shutdown -h now",
-          "http_directory":"http/"
-      },
-      {
-        "boot_command": [
-          "<esc>",
-          "<wait>",
-          "vmlinuz ",
-          "initrd=initrd.img ",
-          "biosdevname=0 net.ifnames=0 ",
-          "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
-          "rd.live.check ",
-          "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
-          "<enter>"
-        ],
-        "boot_wait": "10s",
-        "disk_size": "{{user `disk-size`}}",
-        "disk_type_id": "thin",
-        "output_directory":"{{user `name`}}-vmware",
-        "type": "vmware-iso",
-        "name": "esxi-iso",
-        "headless":"False",
-        "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
-        "iso_checksum_type": "sha256",
-        "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
-        "ssh_username": "root",
-        "ssh_password":"eosplus",
-        "ssh_port":"22",
-        "ssh_wait_timeout": "20m",
-        "guest_os_type": "otherlinux-64",
-        "vm_name":"{{user `name`}}",
-        "remote_host":"{{user `esxi-host`}}",
-        "remote_datastore":"{{user `esxi-path`}}",
-        "remote_type":"esx5",
-        "remote_username":"{{user `esxi-user`}}",
-        "remote_password":"{{user `esxi-passwd`}}",
-        "vmx_data": {
-          "memsize": "{{user `ram`}}",
-          "numvcpus": "1",
-          "cpuid.coresPerSocket": "1",
-          "RemoteDisplay.vnc.enabled" : "TRUE",
-          "ethernet0.startConnected": "TRUE",
-          "ethernet0.connectiontype" : "custom",
-          "ethernet0.virtualDev" : "e1000",
-          "ethernet0.networkName" : "{{user `esxi-network`}}",
-          "ethernet0.linkstatepropagation.enable" : "TRUE",
-          "ethernet0.present" : "TRUE",
-          "ethernet0.pcislotnumber" : "32",
-          "ethernet1.pcislotnumber" : "33",
-          "ethernet1.startConnected": "FALSE",
-          "ethernet1.virtualDev" : "e1000",
-          "ethernet1.present" : "TRUE"
-        },
-        "vmx_data_post": {
-          "ethernet1.startConnected": "TRUE"
-        },
-        "shutdown_command": "/sbin/shutdown -h now",
-        "http_directory":"http/"
-      },
-      {
-          "boot_command": [
-           "<esc>",
-           "<wait>",
-           "vmlinuz ",
-           "initrd=initrd.img ",
-           "biosdevname=0 net.ifnames=0 ",
-           "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
-           "rd.live.check ",
-           "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
-           "<enter>"
-          ],
-          "boot_wait": "10s",
-          "disk_size": "{{user `disk-size`}}",
-          "output_directory":"{{user `name`}}-vbox",
-          "type": "virtualbox-iso",
-          "headless":"False",
-          "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
-          "iso_checksum_type": "sha256",
-          "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
-          "ssh_username": "root",
-          "ssh_password":"eosplus",
-          "ssh_port":"22",
-          "ssh_wait_timeout": "20m",
-          "guest_os_type": "Fedora_64",
-          "vm_name":"{{user `name`}}",
-          "vboxmanage": [
-              [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--memory",
-                  "{{user `ram`}}"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--cpus",
-                  "1"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--rtcuseutc",
-                   "on"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--bioslogodisplaytime",
-                    "1"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--nic1",
-                    "nat"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--nic2",
-                    "hostonly"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--hostonlyadapter2",
-                    "vboxnet2"
-              ]
-            ],
-          "shutdown_command": "/sbin/shutdown -h now",
-          "http_directory":"http/"
-      },
-      {
-          "boot_command": [
-           "<esc>",
-           "<wait>",
-           "vmlinuz ",
-           "initrd=initrd.img ",
-           "biosdevname=0 net.ifnames=0 ",
-           "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
-           "rd.live.check ",
-           "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
-           "<enter>"
-          ],
-          "boot_wait": "10s",
-          "disk_size": "{{user `disk-size`}}",
-          "output_directory":"{{user `name`}}-vbox",
-          "type": "virtualbox-iso",
-          "name": "virtualbox-windows-iso",
-          "headless":"False",
-          "iso_checksum": "376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
-          "iso_checksum_type": "sha256",
-          "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
-          "ssh_username": "root",
-          "ssh_password":"eosplus",
-          "ssh_port":"22",
-          "ssh_wait_timeout": "20m",
-          "guest_os_type": "Fedora_64",
-          "vm_name":"{{user `name`}}",
-          "vboxmanage": [
-              [
-                  "modifyvm",
-                  "{{.Name}}",
-                  "--memory",
-                  "{{user `ram`}}"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--cpus",
-                  "1"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--pae",
-                   "off"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--hwvirtex",
-                   "on"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--vtxux",
-                   "on"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--vtxvpid",
-                   "on"
-              ],
-              [
-                   "modifyvm",
-                   "{{.Name}}",
-                   "--rtcuseutc",
-                   "on"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--bioslogodisplaytime",
-                    "1"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--nic1",
-                    "nat"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--nic2",
-                    "hostonly"
-              ],
-              [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--hostonlyadapter2",
-                    "VirtualBox Host-Only Ethernet Adapter #2"
-              ]
-            ],
-          "shutdown_command": "/sbin/shutdown -h now",
-          "http_directory":"http/"
+  "builders": [
+    {
+      "boot_command": [
+        "<esc>",
+        "<wait>",
+        "vmlinuz ",
+        "initrd=initrd.img ",
+        "biosdevname=0 net.ifnames=0 ",
+        "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
+        "rd.live.check ",
+        "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk-size`}}",
+      "guest_os_type": "fedora-64",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
+      "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
+      "output_directory": "{{user `name`}}-vmware",
+      "shutdown_command": "/sbin/shutdown -h now",
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "vmware-iso",
+      "vm_name": "{{user `name`}}",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "ethernet0.connectionType": "nat",
+        "ethernet0.pcislotnumber": "32",
+        "ethernet0.present": "TRUE",
+        "ethernet0.startConnected": "TRUE",
+        "ethernet0.virtualdev": "e1000",
+        "ethernet1.connectionType": "custom",
+        "ethernet1.pcislotnumber": "33",
+        "ethernet1.present": "TRUE",
+        "ethernet1.startConnected": "TRUE",
+        "ethernet1.virtualdev": "e1000",
+        "ethernet1.vnet": "vmnet2",
+        "memsize": "{{user `ram`}}",
+        "numvcpus": "1"
       }
-	 ],
-	"provisioners": [
-	   {
-	    "source": "conf",
-	    "destination": "/tmp/packer",
-	    "type":"file"
-	   },
-     {
-      "source": "files",
+    },
+    {
+      "boot_command": [
+        "<esc>",
+        "<wait>",
+        "vmlinuz ",
+        "initrd=initrd.img ",
+        "biosdevname=0 net.ifnames=0 ",
+        "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
+        "rd.live.check ",
+        "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk-size`}}",
+      "disk_type_id": "thin",
+      "guest_os_type": "otherlinux-64",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
+      "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
+      "name": "esxi-iso",
+      "output_directory": "{{user `name`}}-vmware",
+      "remote_datastore": "{{user `esxi-path`}}",
+      "remote_host": "{{user `esxi-host`}}",
+      "remote_password": "{{user `esxi-passwd`}}",
+      "remote_type": "esx5",
+      "remote_username": "{{user `esxi-user`}}",
+      "shutdown_command": "/sbin/shutdown -h now",
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "vmware-iso",
+      "vm_name": "{{user `name`}}",
+      "vmx_data": {
+        "RemoteDisplay.vnc.enabled": "TRUE",
+        "cpuid.coresPerSocket": "1",
+        "ethernet0.connectiontype": "custom",
+        "ethernet0.linkstatepropagation.enable": "TRUE",
+        "ethernet0.networkName": "{{user `esxi-network`}}",
+        "ethernet0.pcislotnumber": "32",
+        "ethernet0.present": "TRUE",
+        "ethernet0.startConnected": "TRUE",
+        "ethernet0.virtualDev": "e1000",
+        "ethernet1.pcislotnumber": "33",
+        "ethernet1.present": "TRUE",
+        "ethernet1.startConnected": "FALSE",
+        "ethernet1.virtualDev": "e1000",
+        "memsize": "{{user `ram`}}",
+        "numvcpus": "1"
+      },
+      "vmx_data_post": {
+        "ethernet1.startConnected": "TRUE"
+      }
+    },
+    {
+      "boot_command": [
+        "<esc>",
+        "<wait>",
+        "vmlinuz ",
+        "initrd=initrd.img ",
+        "biosdevname=0 net.ifnames=0 ",
+        "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
+        "rd.live.check ",
+        "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk-size`}}",
+      "guest_os_type": "Fedora_64",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
+      "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
+      "output_directory": "{{user `name`}}-vbox",
+      "shutdown_command": "/sbin/shutdown -h now",
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `ram`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--rtcuseutc",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--bioslogodisplaytime",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic1",
+          "nat"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic2",
+          "hostonly"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hostonlyadapter2",
+          "vboxnet2"
+        ]
+      ],
+      "vm_name": "{{user `name`}}"
+    },
+    {
+      "boot_command": [
+        "<esc>",
+        "<wait>",
+        "vmlinuz ",
+        "initrd=initrd.img ",
+        "biosdevname=0 net.ifnames=0 ",
+        "inst.stage2=hd:LABEL=Fedora\\x2020\\x20x86_64 ",
+        "rd.live.check ",
+        "inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-net.cfg",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk-size`}}",
+      "guest_os_type": "Fedora_64",
+      "headless": "False",
+      "http_directory": "http/",
+      "iso_checksum": "sha256:376be7d4855ad6281cb139430606a782fd6189dcb01d7b61448e915802cc350f",
+      "iso_url": "https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-netinst.iso",
+      "name": "virtualbox-windows-iso",
+      "output_directory": "{{user `name`}}-vbox",
+      "shutdown_command": "/sbin/shutdown -h now",
+      "ssh_password": "eosplus",
+      "ssh_port": "22",
+      "ssh_timeout": "20m",
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `ram`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--pae",
+          "off"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hwvirtex",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vtxux",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vtxvpid",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--rtcuseutc",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--bioslogodisplaytime",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic1",
+          "nat"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nic2",
+          "hostonly"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hostonlyadapter2",
+          "VirtualBox Host-Only Ethernet Adapter #2"
+        ]
+      ],
+      "vm_name": "{{user `name`}}"
+    }
+  ],
+  "provisioners": [
+    {
       "destination": "/tmp/packer",
-      "type":"file"
-     },
-	   {
+      "source": "conf",
+      "type": "file"
+    },
+    {
+      "destination": "/tmp/packer",
+      "source": "files",
+      "type": "file"
+    },
+    {
       "scripts": [
-	    "scripts/setup.sh"
-	      ],
-	    "type" : "shell"
-     }
-   ]
+        "scripts/setup.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "disk-size": "7000",
+    "esxi-host": "",
+    "esxi-network": "",
+    "esxi-passwd": "",
+    "esxi-path": "",
+    "esxi-user": "",
+    "name": "ztps-fedora-20-x86_64",
+    "ram": "2048"
+  }
 }
+
